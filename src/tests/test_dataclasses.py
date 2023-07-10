@@ -3,6 +3,8 @@ from pathlib import Path
 import sys, os
 import unittest
 
+# sys.path.append(os.path.join(Path(__file__).parents[2]))
+
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
 
