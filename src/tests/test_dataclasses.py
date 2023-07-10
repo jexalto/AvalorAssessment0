@@ -28,11 +28,12 @@ class TestGrid(unittest.TestCase):
         gridsize = 20 # this determines what file is chose. Options are: 20, 100, 1000
         gridfile = os.path.join(BASE_DIR, 'data', 'grids', f'{gridsize}.txt')
         coords = [3, 2] # this location holds the value '2' in the original matrix
-        self.total_time = 15 # total number of timesteps
+        self.total_time = 10 # total number of timesteps
+        self.reset_time = 5
         
         grid = GridInfo(name='TestGrid',
                         gridshape=self.gridmatrix(filepath=gridfile),
-                        reset_time=10)
+                        reset_time=self.reset_time)
         
         return coords, grid
     
@@ -40,6 +41,7 @@ class TestGrid(unittest.TestCase):
         '''
             Test whether values get set to zero
         '''
+
         coords, grid = self.grid_output()
         x_coord, y_coord = coords
         
@@ -48,11 +50,20 @@ class TestGrid(unittest.TestCase):
         self.assertEqual(grid.gridshape[x_coord][y_coord], 0)
         
     def test_update_grid_increase(self):
-        
+        '''
+            Test whether grid values increase again after being set to zero. 
+            The drone moves over the diagonal from its starting position
+        '''
+
         coords, grid = self.grid_output()
         x_coord, y_coord = coords
  
         for timestep in range(self.total_time):
             grid.drone_moved_to_square(coords=[x_coord+timestep, y_coord+timestep])
-        
-        self.assertEqual(0, 0)
+
+            if timestep<=self.reset_time:
+                # due to numerical error (1e-12) use almostequal
+                self.assertAlmostEqual(grid.grid_multiplier[x_coord][y_coord], timestep/self.reset_time)
+            
+            else:
+                self.assertAlmostEqual(grid.grid_multiplier[x_coord][y_coord], 1)
