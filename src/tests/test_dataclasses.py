@@ -3,14 +3,11 @@ from pathlib import Path
 import sys, os
 import unittest
 
-sys.path.append(os.path.join(Path(__file__).parents[2]))
-
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
 
 # --- External ---
 import numpy as np
-import pandas as pd
 
 BASE_DIR = Path(__file__).parents[1]
 
@@ -97,3 +94,6 @@ class TestGrid(unittest.TestCase):
             self.assertAlmostEqual(drone.total_path_value, temp)
             
             self.assertEqual(len(drone.path), timestep+2)
+
+if __name__=='__main__':
+    unittest.main()
