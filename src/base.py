@@ -1,5 +1,6 @@
 # --- Built-ins ---
 from dataclasses import dataclass
+from functools import cached_property
 
 # --- Internal ---
 
@@ -28,7 +29,7 @@ class GridInfo:
     reset_time: int # the mount of time it takes to reset a square's value back to its original value from zero
     
     def __post_init__(self):
-        self.size = np.size(self.grid)
+        self.size = self.gridshape.shape
         # After a square is visited, the grid_multiplier is set to zero
         self.grid_multiplier = np.ones(self.size)
         
@@ -36,7 +37,7 @@ class GridInfo:
         '''
             Function that is called when drone moves. Consequently, time progresses
         '''
-        self._update_grid_multiplier()
+        self._update_grid_multiplier(coords=coords)
         self._update_grid_values()
         
     def _update_grid_multiplier(self, coords: list[int]):
@@ -53,6 +54,6 @@ class GridInfo:
         x, y = coords
         # === Set the newly visited square multiplier score to zero ===
         self.grid_multiplier[x][y] = 0
-        
+    
     def _update_grid_values(self):
-        self.grid = np.multiply(self.grid, self.grid_multiplier)
+        self.gridshape = np.multiply(self.gridshape, self.grid_multiplier)
