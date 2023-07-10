@@ -1,6 +1,6 @@
-/Users/joaquinexalto/code/avalor/AvalorAssessment0/src/tests/test_dataclasses.py:TestGrid.test_update_grid_increase ... OK (00:00:0.00, 71 MB)
+/Users/joaquinexalto/code/avalor/AvalorAssessment0/src/tests/test_dataclasses.py:TestGrid.test_update_drone_info ... OK (00:00:0.00, 70 MB)
 /Users/joaquinexalto/code/avalor/AvalorAssessment0/src/tests/test_dataclasses.py:TestGrid.test_update_grid_to_zero ... OK (00:00:0.00, 72 MB)
-/Users/joaquinexalto/code/avalor/AvalorAssessment0/src/tests/test_dataclasses.py:TestGrid.test_update_drone_info ... OK (00:00:0.00, 72 MB)
+/Users/joaquinexalto/code/avalor/AvalorAssessment0/src/tests/test_dataclasses.py:TestGrid.test_update_grid_increase ... OK (00:00:0.00, 72 MB)
 
 
 OK
@@ -11,5 +11,5 @@ Skipped: 0
 
 
 Ran 3 tests using 10 processes
-Wall clock time:   00:00:1.97
+Wall clock time:   00:00:0.81
 
