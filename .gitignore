@@ -1,6 +1,6 @@
 .venv/*
 *.png
-__pycache__/*
+__pycache__/**
 *.out
 *.db
-*/__pycache__/*
+**/__pycache__/**
