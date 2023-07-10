@@ -10,17 +10,23 @@ import numpy as np
 @dataclass
 class DroneInfo:
     name: str
-    starting_point: tuple
+    starting_point: list[int]
     
     def __post_init__(self):
+        self.total_path_value = 0.
         self.path = [self.starting_point]
     
     def move_drone(self, coords_new: list[int]):
         '''
             Adds new point to self.path
         '''
-        x, y = coords_new
-        self.path.append(tuple(x, y)) # extend or append?
+        self.path.append(coords_new) # extend or append?
+        
+    def add_to_sum(self, square_value: float):
+        '''
+            Adds newly collected value to total sum
+        '''
+        self.total_path_value += square_value
 
 @dataclass
 class GridInfo:

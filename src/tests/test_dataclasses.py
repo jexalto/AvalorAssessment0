@@ -15,34 +15,37 @@ import pandas as pd
 BASE_DIR = Path(__file__).parents[1]
 
 class TestGrid(unittest.TestCase):
-    def gridmatrix(self, filepath: str):
-        '''
-            Function returns matrix, read in from ..data/grids/
-        '''
-        return np.loadtxt(filepath, dtype='i', delimiter=' ')
-    
-    def grid_output(self):
-        '''
-            This is the input function for all test functions
-        '''
-        gridsize = 20 # this determines what file is chose. Options are: 20, 100, 1000
-        gridfile = os.path.join(BASE_DIR, 'data', 'grids', f'{gridsize}.txt')
-        coords = [3, 2] # this location holds the value '2' in the original matrix
+    def inputs(self):
         self.total_time = 10 # total number of timesteps
         self.reset_time = 5
         
+        gridsize = 20 # this determines what file is chose. Options are: 20, 100, 1000
+        coords = [3, 2]
+
+        grid = self._grid_output(gridsize=gridsize)
+        drone = DroneInfo(name='TestDrone',
+                          starting_point=coords)
+
+        return coords, grid, drone
+    
+    def _grid_output(self, gridsize: int):
+        '''
+            This is the grid input function for all test functions
+        '''
+        gridfile = os.path.join(BASE_DIR, 'data', 'grids', f'{gridsize}.txt')
+        
         grid = GridInfo(name='TestGrid',
-                        gridshape=self.gridmatrix(filepath=gridfile),
+                        gridshape=np.loadtxt(gridfile, dtype='i', delimiter=' '),
                         reset_time=self.reset_time)
         
-        return coords, grid
+        return grid
     
     def test_update_grid_to_zero(self):
         '''
             Test whether values get set to zero
         '''
 
-        coords, grid = self.grid_output()
+        coords, grid, _ = self.inputs()
         x_coord, y_coord = coords
         
         grid.drone_moved_to_square(coords=[x_coord, y_coord])
@@ -55,7 +58,7 @@ class TestGrid(unittest.TestCase):
             The drone moves over the diagonal from its starting position
         '''
 
-        coords, grid = self.grid_output()
+        coords, grid, _ = self.inputs()
         x_coord, y_coord = coords
  
         for timestep in range(self.total_time):
@@ -67,3 +70,30 @@ class TestGrid(unittest.TestCase):
             
             else:
                 self.assertAlmostEqual(grid.grid_multiplier[x_coord][y_coord], 1)
+                
+    def test_update_drone_info(self):
+        '''
+            Test whether grid values increase again after being set to zero. The test also assesses whether the drone path is appended
+            The drone moves over the diagonal from its starting position.
+        '''
+
+        coords, grid, drone = self.inputs()
+        x_coord, y_coord = coords
+        temp = 0
+ 
+        for timestep in range(self.total_time):
+            # === Move drone and retrieve square value ===
+            gridvalue = grid.gridshape[x_coord+timestep][y_coord+timestep]
+            drone.move_drone(coords_new=[x_coord+timestep, y_coord+timestep])
+            drone.add_to_sum(square_value=gridvalue)
+
+            # === Update grids value ===
+            grid.drone_moved_to_square(coords=[x_coord+timestep, y_coord+timestep])
+
+            # === Update unittest values ===
+            temp += gridvalue
+
+            # use almostequal due to numerical error (1e-12)
+            self.assertAlmostEqual(drone.total_path_value, temp)
+            
+            self.assertEqual(len(drone.path), timestep+2)
