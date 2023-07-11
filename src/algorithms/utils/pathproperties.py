@@ -16,12 +16,12 @@ class DroneGridInfo:
         An analogy is drawn with the gravitational pull of planets, although gravity scales with r^2
     '''
     
-    def __init__(self, drone: list[DroneInfo], grid: GridInfo, total_time: int)->None:
+    def __init__(self, drone: DroneInfo, grid: GridInfo, total_time: int)->None:
         self.drone = drone
         self.grid = grid
         self.total_time = total_time
     
-    def get_surrounding_values(self, drone_index: int)->list[float]:
+    def get_surrounding_values(self)->list[float]:
         '''
             This function retrieves the values surrounding square x, y.
             Given as:
@@ -34,7 +34,7 @@ class DroneGridInfo:
         grid = self.grid.gridshape
         gridshape = self.grid.size
         
-        x, y = self.drone[drone_index].path[-1]
+        x, y = self.drone.path[-1]
         
         # === Check whether x, y are at the edge of the matrix ===
         if x==0:
