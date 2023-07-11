@@ -2,6 +2,7 @@
 from pathlib import Path
 import sys, os
 import unittest
+import copy
 
 # sys.path.append(os.path.join(Path(__file__).parents[2]))
 
@@ -64,17 +65,26 @@ class TestGrid(unittest.TestCase):
         '''
         total_time = 1
         coords, grid, drone = self.inputs()
+        dronegrid = DroneGridInfo(drone=drone, grid=grid, total_time=self.total_time),
         
-        drone_properties = [DroneGridInfo(drone=drone, grid=grid, total_time=self.total_time)]*8
+        # TODO: horrible coding convention but i ran into memory reference issues
+        drone_properties = [copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0]]
 
         pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
         dronegrid_properties_final = pathfinder.findpath(total_time=total_time)
-        grid_multiplier = dronegrid_properties_final.grid.grid_multiplier
         
-        self.assertAlmostEqual(len(np.where(grid_multiplier==0)[0]), 1)
+        # === Check whether all grid multiplication matrices have the correct number of zero's and 0.2's ===
+        for idrongegrid in dronegrid_properties_final:
+            grid_multiplier = idrongegrid.grid.grid_multiplier
+            
+            self.assertAlmostEqual(len(np.where(grid_multiplier==0)[0]), 1)
+            self.assertAlmostEqual(len(np.where(grid_multiplier==0.2)[0]), 1)
         
-        total_time = 2
-        dronegrid_properties_final = pathfinder.findpath(total_time=total_time)
-        grid_multiplier = dronegrid_properties_final.grid.grid_multiplier
         
-        self.assertAlmostEqual(len(np.where(grid_multiplier==0.2)[0]), 9)

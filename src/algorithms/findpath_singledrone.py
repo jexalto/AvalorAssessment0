@@ -1,8 +1,6 @@
 # --- Built-ins ---
-from pathlib import Path
 
 # --- Internal ---
-from src.base import DroneInfo, GridInfo
 from src.algorithms.utils.pathproperties import DroneGridInfo
 
 # --- External ---
@@ -26,15 +24,25 @@ class FindPathGreedy:
             |   .,. - .,. - .,. - .,.
             v   .,. - .,. - .,. - .,.
                 n,0 - .,. - .,. - n,n
-        '''
-        nr_paths = len(self.dronegrid_properties) # we have 8 possible paths to follow
-        
+        '''        
         x_index = [-1, 0, 1, 1, 1, 0, -1, -1]
         y_index = [-1, -1, -1, 0, 1, 1, 1, 0]
         
-        # === Move drone into 8 directions ===
-        
-        
+        # === Initially move drones into 8 directions ===
+        for index, idronegrid in enumerate(self.dronegrid_properties):
+            # === Update drone path ===
+            current_drone_coords = idronegrid.drone.path[-1]
+            new_drone_coords = [current_drone_coords[0]+x_index[index], 
+                                current_drone_coords[1]+y_index[index]]
+                
+            idronegrid.drone.move_drone(coords_new=new_drone_coords)
+            idronegrid.drone.add_to_sum(square_value=
+                                            idronegrid.grid.gridshape[current_drone_coords[0]][current_drone_coords[1]])
+            
+            # === Update grid ===
+            idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=1)
+
+        # === Perform path finding operation for all 8 drone instances ===
         for timestep in range(2, total_time+1):
             for idronegrid in self.dronegrid_properties:
                 # === Find max numerical value around square ===
@@ -54,7 +62,7 @@ class FindPathGreedy:
                 # === Update grid ===
                 idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=timestep)
                 
-        return idronegrid
+        return self.dronegrid_properties
     
 class FindPathGravity(DroneGridInfo):
     def __init__(self):
