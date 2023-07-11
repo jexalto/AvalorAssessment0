@@ -9,7 +9,12 @@ import numpy as np
 
 MIN_VALUE = -100001
 
-class FindPathSingleDrone:
+class FindPathSingleDroneGravityApporoach:
+    '''
+        This approach is based on the fact that 10 squares with a value of one, that are all reachable within one step are 
+        equally valuable as a single square with value 10 that is 10 steps away.
+        An analogy is drawn with the gravitational pull of planets, although gravity scales with r^2
+    '''
     
     def __init__(self, drone: DroneInfo, grid: GridInfo, total_time: int):
         self.drone = drone

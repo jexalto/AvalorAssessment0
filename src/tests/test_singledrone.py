@@ -7,7 +7,7 @@ import unittest
 
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
-from src.algorithms.findpath_singledrone import FindPathSingleDrone
+from src.algorithms.findpath_singledrone import FindPathSingleDroneGravityApporoach
 
 # --- External ---
 import numpy as np
@@ -50,8 +50,7 @@ class TestGrid(unittest.TestCase):
         
         for icoords in coords:
         
-            pathfinder = FindPathSingleDrone(drone=drone, grid=grid, total_time=self.total_time)
+            pathfinder = FindPathSingleDroneGravityApporoach(drone=drone, grid=grid, total_time=self.total_time)
             surrounding_values=pathfinder._get_surrounding_values(coords=icoords)
 
             self.assertEqual(len(surrounding_values), 8)
-            # self.assertEqual(surrounding_values, [2, 1, 1, 1, 2, 1, 2, 2]) # for coords [3,2]

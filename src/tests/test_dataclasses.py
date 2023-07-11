@@ -96,6 +96,3 @@ class TestGrid(unittest.TestCase):
             self.assertAlmostEqual(drone.total_path_value, temp)
             
             self.assertEqual(len(drone.path), timestep+2)
-
-if __name__=='__main__':
-    unittest.main()
