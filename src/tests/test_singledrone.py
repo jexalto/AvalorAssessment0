@@ -7,7 +7,7 @@ import unittest
 
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
-from src.algorithms.findpath_singledrone import FindPathSingleDroneGravityApporoach
+from src.algorithms.utils.pathproperties import DroneProperties
 
 # --- External ---
 import numpy as np
@@ -42,15 +42,27 @@ class TestGrid(unittest.TestCase):
     
     def test_surrounding_values(self):
         '''
-            Test whether surrounding values are found correctly
+            Test whether surrounding values are found correctly.
         '''
         _, grid, drone = self.inputs()
         
         coords = [[0,0], [19, 0], [0, 19], [19,19], [3,2]]
         
         for icoords in coords:
+            
+            drone.move_drone(coords_new=icoords)
         
-            pathfinder = FindPathSingleDroneGravityApporoach(drone=drone, grid=grid, total_time=self.total_time)
-            surrounding_values=pathfinder._get_surrounding_values(coords=icoords)
+            pathfinder = DroneProperties(drone=drone, grid=grid, total_time=self.total_time)
+            surrounding_values=pathfinder.get_surrounding_values()
 
             self.assertEqual(len(surrounding_values), 8)
+            
+    def test_findpath_greedy(self):
+        '''
+            Test whether the algorithm returns the correct quadrants of the matrix and their score.
+        '''
+        _, grid, drone = self.inputs()
+        
+        drone_lst = [drone, drone, drone, drone, drone, drone, drone, drone]
+        
+        pathfinder = DroneProperties(drone=drone, grid=grid, total_time=self.total_time)
