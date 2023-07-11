@@ -23,8 +23,14 @@ class FindPathGreedy():
             v   .,. - .,. - .,. - .,.
                 n,0 - .,. - .,. - n,n
         '''
-        pathvalues = drones[0].get_surrounding_values() # starting point, since we will have eight different paths
+        
+        x_index = [-1, 0, 1, 1, 1, 0, -1, -1]
+        y_index = [-1, -1, -1, 0, 1, 1, 1, 0]
+
         for idrone in drones:
+            pathvalues = idrone.get_surrounding_values()
+            max_index = np.argmax(pathvalues)
+            idrone.drone.move_drone()
             
         return surrounding_values
     

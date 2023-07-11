@@ -52,8 +52,8 @@ class TestGrid(unittest.TestCase):
             
             drone.move_drone(coords_new=icoords)
         
-            pathfinder = DroneProperties(drone=drone, grid=grid, total_time=self.total_time)
-            surrounding_values=pathfinder.get_surrounding_values()
+            pathfinder = DroneProperties(drone=[drone], grid=grid, total_time=self.total_time)
+            surrounding_values=pathfinder.get_surrounding_values(drone_index=0)
 
             self.assertEqual(len(surrounding_values), 8)
             
