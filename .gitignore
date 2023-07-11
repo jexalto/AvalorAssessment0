@@ -4,3 +4,4 @@ __pycache__/**
 *.out
 *.db
 **/__pycache__/**
+**/.DS_Store
