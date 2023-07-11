@@ -7,7 +7,8 @@ import unittest
 
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
-from src.algorithms.utils.pathproperties import DroneProperties
+from src.algorithms.findpath_singledrone import FindPathGreedy
+from src.algorithms.utils.pathproperties import DroneGridInfo
 
 # --- External ---
 import numpy as np
@@ -52,7 +53,7 @@ class TestGrid(unittest.TestCase):
             
             drone.move_drone(coords_new=icoords)
         
-            pathfinder = DroneProperties(drone=[drone], grid=grid, total_time=self.total_time)
+            pathfinder = DroneGridInfo(drone=[drone], grid=grid, total_time=self.total_time)
             surrounding_values=pathfinder.get_surrounding_values(drone_index=0)
 
             self.assertEqual(len(surrounding_values), 8)
@@ -61,8 +62,36 @@ class TestGrid(unittest.TestCase):
         '''
             Test whether the algorithm returns the correct quadrants of the matrix and their score.
         '''
-        _, grid, drone = self.inputs()
+        total_time = 1
+        coords, grid, drone = self.inputs()
         
-        drone_lst = [drone, drone, drone, drone, drone, drone, drone, drone]
+        drone_lst = [DroneInfo(name='TestDrone0',
+                          starting_point=coords),
+                     DroneInfo(name='TestDrone1',
+                          starting_point=coords),
+                     DroneInfo(name='TestDrone2',
+                          starting_point=coords),
+                     DroneInfo(name='TestDrone3',
+                          starting_point=coords),
+                     DroneInfo(name='TestDrone4',
+                          starting_point=coords),
+                     DroneInfo(name='TestDrone5',
+                          starting_point=coords),
+                     DroneInfo(name='TestDrone6',
+                          starting_point=coords),
+                     DroneInfo(name='TestDrone7',
+                          starting_point=coords)]
         
-        pathfinder = DroneProperties(drone=drone, grid=grid, total_time=self.total_time)
+        drone_properties = DroneGridInfo(drone=drone_lst, grid=grid, total_time=self.total_time)
+
+        pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
+        dronegrid_properties_final = pathfinder.findpath(total_time=total_time)
+        grid_multiplier = dronegrid_properties_final.grid.grid_multiplier
+        
+        self.assertAlmostEqual(len(np.where(grid_multiplier==0)[0]), 9)
+        
+        total_time = 2
+        dronegrid_properties_final = pathfinder.findpath(total_time=total_time)
+        grid_multiplier = dronegrid_properties_final.grid.grid_multiplier
+        
+        self.assertAlmostEqual(len(np.where(grid_multiplier==0.2)[0]), 9)

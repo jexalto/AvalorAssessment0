@@ -9,7 +9,7 @@ import numpy as np
 
 MIN_VALUE = -100001
 
-class DroneProperties:
+class DroneGridInfo:
     '''
         This approach is based on the fact that 10 squares with a value of one, that are all reachable within one step are 
         equally valuable as a single square with value 10 that is 10 steps away.
