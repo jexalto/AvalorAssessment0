@@ -107,4 +107,5 @@ class TestGrid(unittest.TestCase):
         pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
         drone_maxpath = pathfinder.find_path(total_time=total_time)
         
-        self.assertAlmostEqual(len(drone_maxpath.drone.path), total_time)
+        # -1 because the starting position is given at t=0
+        self.assertAlmostEqual(len(drone_maxpath.drone.path)-1, total_time)

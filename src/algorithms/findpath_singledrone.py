@@ -25,7 +25,7 @@ class FindPathGreedy:
                 maxpath_index = index
                 maxpath = idronegrid.drone.total_path_value
                 
-        return self.dronegrid_properties[maxpath]
+        return self.dronegrid_properties[maxpath_index]
     
     def _process_paths(self, total_time: int)->list[DroneGridInfo]:
         '''
