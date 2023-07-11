@@ -46,13 +46,23 @@ class DroneGridInfo:
                 surrounding_values.append(grid[y+1] [x])
                 surrounding_values.extend([MIN_VALUE, MIN_VALUE])
                 
-            if y==gridshape[1]-1:
+            elif y==gridshape[1]-1:
                 # Location is bottom left of matrix
                 surrounding_values.extend([MIN_VALUE])
                 surrounding_values.append(grid[y-1] [x])
                 surrounding_values.append(grid[y-1] [x-1])
                 surrounding_values.append(grid[y]   [x-1])
                 surrounding_values.extend([MIN_VALUE, MIN_VALUE, MIN_VALUE, MIN_VALUE])
+                
+            else:
+                # Location is somewhere in the left column
+                surrounding_values.extend([MIN_VALUE])
+                surrounding_values.append(grid[y-1] [x])
+                surrounding_values.append(grid[y-1] [x+1])
+                surrounding_values.append(grid[y]   [x+1])
+                surrounding_values.append(grid[y+1] [x+1])
+                surrounding_values.append(grid[y+1] [x])
+                surrounding_values.extend([MIN_VALUE, MIN_VALUE])
         
         elif x==gridshape[1]-1:
             if y==0:
@@ -62,14 +72,42 @@ class DroneGridInfo:
                 surrounding_values.append(grid[y+1] [x-1])
                 surrounding_values.append(grid[y]   [x-1])
                 
-            if y==gridshape[1]-1:
+            elif y==gridshape[1]-1:
                 # Location is bottom right of matrix
                 surrounding_values.append(grid[y-1] [x-1])
                 surrounding_values.append(grid[y-1] [x])
                 surrounding_values.extend([MIN_VALUE, MIN_VALUE, MIN_VALUE, MIN_VALUE, MIN_VALUE])
                 surrounding_values.append(grid[y]   [x-1])
+                
+            else:
+                # Location is somewhere in the left column
+                surrounding_values.append(grid[y-1] [x-1])
+                surrounding_values.append(grid[y-1] [x])
+                surrounding_values.extend([MIN_VALUE, MIN_VALUE, MIN_VALUE])
+                surrounding_values.append(grid[y+1] [x])
+                surrounding_values.append(grid[y+1] [x-1])
+                surrounding_values.append(grid[y]   [x-1])
 
+        elif y==0:
+            # Location is top row
+            surrounding_values.extend([MIN_VALUE, MIN_VALUE, MIN_VALUE])
+            surrounding_values.append(grid[y]   [x+1])
+            surrounding_values.append(grid[y+1] [x+1])
+            surrounding_values.append(grid[y+1] [x])
+            surrounding_values.append(grid[y+1] [x-1])
+            surrounding_values.append(grid[y]   [x-1])
+        
+        elif y==gridshape[1]-1:
+            # Location is bottom row
+            surrounding_values.append(grid[y-1] [x-1])
+            surrounding_values.append(grid[y-1] [x])
+            surrounding_values.append(grid[y-1] [x+1])
+            surrounding_values.append(grid[y]   [x-1])
+            surrounding_values.extend([MIN_VALUE, MIN_VALUE, MIN_VALUE])
+            surrounding_values.append(grid[y]   [x-1])
+          
         else:
+            # Location is anywhere in the grid
             surrounding_values.append(grid[y-1][x-1])
             surrounding_values.append(grid[y-1][x])
             surrounding_values.append(grid[y-1][x+1])

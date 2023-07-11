@@ -22,7 +22,7 @@ class TestGrid(unittest.TestCase):
         self.reset_time = 5
         
         gridsize = 20 # this determines what file is chose. Options are: 20, 100, 1000
-        coords = [3, 2]
+        coords = [2, 2]
 
         grid = self._grid_output(gridsize=gridsize)
         drone = DroneInfo(name='TestDrone',
@@ -59,9 +59,11 @@ class TestGrid(unittest.TestCase):
 
             self.assertEqual(len(surrounding_values), 8)
             
-    def test_findpath_greedy(self):
+    def test_drone_instances(self):
         '''
-            Test whether the algorithm returns the correct quadrants of the matrix and their score.
+            Test whether the algorithm returns the correct grid multiplier matrices for the 8 distinct
+            drone instances used to find the maximum path.
+            Test for one time step!
         '''
         total_time = 1
         coords, grid, drone = self.inputs()
@@ -78,7 +80,7 @@ class TestGrid(unittest.TestCase):
                             copy.deepcopy(dronegrid)[0]]
 
         pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
-        dronegrid_properties_final = pathfinder.findpath(total_time=total_time)
+        dronegrid_properties_final = pathfinder._process_paths(total_time=total_time)
         
         # === Check whether all grid multiplication matrices have the correct number of zero's and 0.2's ===
         for idrongegrid in dronegrid_properties_final:
@@ -86,5 +88,23 @@ class TestGrid(unittest.TestCase):
             
             self.assertAlmostEqual(len(np.where(grid_multiplier==0)[0]), 1)
             self.assertAlmostEqual(len(np.where(grid_multiplier==0.2)[0]), 1)
+            
+    def test_find_path(self):
+        total_time = 10
+        coords, grid, drone = self.inputs()
+        dronegrid = DroneGridInfo(drone=drone, grid=grid, total_time=self.total_time),
         
+        # TODO: horrible coding convention but i ran into memory reference issues
+        drone_properties = [copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0]]
+
+        pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
+        drone_maxpath = pathfinder.find_path(total_time=total_time)
         
+        self.assertAlmostEqual(len(drone_maxpath.drone.path), total_time)

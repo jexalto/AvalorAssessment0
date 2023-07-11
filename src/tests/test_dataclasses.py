@@ -47,9 +47,9 @@ class TestGrid(unittest.TestCase):
         coords, grid, _ = self.inputs()
         x_coord, y_coord = coords
         
-        grid.drone_moved_to_square(coords=[x_coord, y_coord], time=1)
+        grid.drone_moved_to_square(coords=[x_coord, y_coord], time=0)
         
-        self.assertEqual(grid.gridshape[x_coord][y_coord], 0)
+        self.assertEqual(grid.gridshape[y_coord][x_coord], 0)
         
     def test_update_grid_increase(self):
         '''
@@ -61,14 +61,14 @@ class TestGrid(unittest.TestCase):
         x_coord, y_coord = coords
  
         for timestep in range(self.total_time):
-            grid.drone_moved_to_square(coords=[x_coord+timestep, y_coord+timestep], time=1)
+            grid.drone_moved_to_square(coords=[x_coord+timestep, y_coord+timestep], time=timestep)
 
             if timestep<=self.reset_time:
                 # due to numerical error (1e-12) use almostequal
-                self.assertAlmostEqual(grid.grid_multiplier[x_coord][y_coord], timestep/self.reset_time)
+                self.assertAlmostEqual(grid.grid_multiplier[y_coord][x_coord], timestep/self.reset_time)
             
             else:
-                self.assertAlmostEqual(grid.grid_multiplier[x_coord][y_coord], 1)
+                self.assertAlmostEqual(grid.grid_multiplier[y_coord][x_coord], 1)
                 
     def test_update_drone_info(self):
         '''

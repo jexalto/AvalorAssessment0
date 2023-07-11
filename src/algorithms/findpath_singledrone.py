@@ -13,8 +13,21 @@ class FindPathGreedy:
             starting_point = idronegrid.drone.starting_point
             idronegrid.grid.drone_moved_to_square(coords=starting_point, time=0)
         self.dronegrid_properties = dronegrid_properties
+        
+    def find_path(self, total_time)->DroneGridInfo:
+        self._process_paths(total_time=total_time)
+
+        maxpath = 0
+        maxpath_index = 0
+        path = []
+        for index, idronegrid in enumerate(self.dronegrid_properties):
+            if idronegrid.drone.total_path_value>maxpath:
+                maxpath_index = index
+                maxpath = idronegrid.drone.total_path_value
+                
+        return self.dronegrid_properties[maxpath]
     
-    def findpath(self, total_time: int)->list[list[int]]:
+    def _process_paths(self, total_time: int)->list[DroneGridInfo]:
         '''
             Coordinates look like this:
                     x - >
@@ -47,6 +60,9 @@ class FindPathGreedy:
             for idronegrid in self.dronegrid_properties:
                 # === Find max numerical value around square ===
                 pathvalues = idronegrid.get_surrounding_values()
+                
+                assert len(pathvalues) == 8
+                
                 max_index = np.argmax(pathvalues)
                 
                 # === Find new drone coords ===            
@@ -61,7 +77,7 @@ class FindPathGreedy:
                 
                 # === Update grid ===
                 idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=timestep)
-                
+
         return self.dronegrid_properties
     
 class FindPathGravity(DroneGridInfo):
