@@ -37,8 +37,13 @@ class FindPathGreedy:
         return maxdronepath
     
     def _initialise(self, dronegrid_properties: list[DroneGridInfo])->None:
+        starting_x, starting_y = dronegrid_properties[0].drone.starting_point
         for idronegrid in dronegrid_properties:
             idronegrid.grid.reset()
+            # When initialising the dorne on the grid the multiplier should be set to zero for the starting position
+            # TODO: integrate this in the drone-grid initialisation
+            idronegrid.grid.grid_multiplier[starting_y][starting_x] = 0
+            
         self.dronegrid_properties = dronegrid_properties
         
     def _reset_drone(self, dronegrid_properties: list[DroneGridInfo])->None:

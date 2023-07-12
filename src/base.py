@@ -60,12 +60,12 @@ class GridInfo:
         '''        
         # === Update the multiplier values that were previously set to zero ===
         # This operation is only performed if time is progressed, hence the 'if self.time ...'
-        # TODO: this operation is mega inefficient as is, will be improved later (pvp)
+        # TODO: this operation is inefficient as is, will be improved later (pvp)
         if self.time != time:
             self.time = time
             for index_row, row in enumerate(self.grid_multiplier):
                 for index_col, col in enumerate(row):
-                    if self.grid_multiplier[index_row][index_col] != 1:
+                    if self.grid_multiplier[index_row][index_col] < 0.9:
                         self.grid_multiplier[index_row][index_col] += 1/self.reset_time
                     
         x, y = coords
