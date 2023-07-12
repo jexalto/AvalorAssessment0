@@ -49,8 +49,8 @@ class DroneGridInfo:
                 # Location is bottom left of matrix
                 surrounding_values.extend([MIN_VALUE])
                 surrounding_values.append(grid[y-1] [x])
-                surrounding_values.append(grid[y-1] [x-1])
-                surrounding_values.append(grid[y]   [x-1])
+                surrounding_values.append(grid[y-1] [x+1])
+                surrounding_values.append(grid[y]   [x+1])
                 surrounding_values.extend([MIN_VALUE, MIN_VALUE, MIN_VALUE, MIN_VALUE])
                 
             else:
