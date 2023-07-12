@@ -25,10 +25,10 @@ class DroneInfo:
         '''
             Adds newly collected value to total sum
         '''
-        self.total_path_value += square_value
+        self.total_path_value.append(self.total_path_value[-1]+square_value)
         
     def reset(self):
-        self.total_path_value = 0.
+        self.total_path_value = [0.]
         self.path = [self.starting_point]
 
 @dataclass

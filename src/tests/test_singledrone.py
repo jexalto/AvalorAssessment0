@@ -70,17 +70,17 @@ class TestGrid(unittest.TestCase):
         '''
         total_time = 1
         coords, grid, drone = self.inputs()
-        dronegrid = DroneGridInfo(drone=drone, grid=grid),
+        dronegrid = DroneGridInfo(drone=drone, grid=grid)
         
         # TODO: horrible coding convention but i ran into memory reference issues
-        drone_properties = [copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0]]
+        drone_properties = [copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid)]
 
         pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
         dronegrid_properties_final = pathfinder._process_paths(total_time=total_time)

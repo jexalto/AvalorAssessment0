@@ -17,6 +17,8 @@ class DroneGridInfo:
     def __init__(self, drone: DroneInfo, grid: GridInfo)->None:
         self.drone = drone
         self.grid = grid
+        starting_x, starting_y = self.drone.starting_point
+        self.grid.grid_multiplier[starting_y][starting_x] = 0
     
     def get_surrounding_values(self)->list[float]:
         '''

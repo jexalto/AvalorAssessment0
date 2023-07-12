@@ -79,49 +79,50 @@ def plotgrid(grid: GridInfo)->None:
     
 if __name__=='__main__':
     gridsize = 20
+    total_time = 20
+    reset_time = 10
+    coords, drone = inputs()
+    
     gridfile = os.path.join(BASE_DIR, 'data', 'grids', f'{gridsize}.txt')
-        
     grid = GridInfo(name='TestGrid',
                     gridshape=np.loadtxt(gridfile, dtype='i', delimiter=' '),
-                    reset_time=10)
+                    reset_time=reset_time)
     
-    total_time = 40
-    coords, drone = inputs()
-    dronegrid = DroneGridInfo(drone=drone, grid=grid),
-    
+    dronegrid = DroneGridInfo(drone=drone, grid=grid)
+
     # TODO: horrible coding convention but i ran into memory reference issues
-    dronegrid_properties = [copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0],
-                            copy.deepcopy(dronegrid)[0]]
+    dronegrid_properties = [copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid),
+                            copy.deepcopy(dronegrid)]
 
     pathfinder = FindPathGreedyGifs(dronegrid_properties=dronegrid_properties)
     # all_paths = pathfinder._process_paths(total_time=total_time)
     # pathfinder._initialise(dronegrid_properties=dronegrid_properties)
     # pathfinder._reset_drone(dronegrid_properties=dronegrid_properties)
-    drone_maxpath, maxpath_index, grids = pathfinder.find_path(total_time=total_time)
-    path = drone_maxpath#all_paths[index]
+    path, maxpath_index, grids = pathfinder.find_path(total_time=total_time)
     
     gifpath = []
     
     for index, coords in enumerate(path.drone.path):
         gifpath.append(coords)
-        fig, ax = plotgrid(grid=grids[(index+1)*maxpath_index])
+        fig, ax = plotgrid(grid=grids[index])
         dronepathplots(ax=ax, path=gifpath, starting_point=path.drone.starting_point)
-        plt.title(f'Max Sum: {path.drone.total_path_value}')
+        plt.title(f'Max Sum: {path.drone.total_path_value[index+1]}')
         plt.savefig(os.path.join(BASE_DIR, 'data', 'gifs', 'figures', f'grid_{gridsize}_{index}.png'))
         plt.clf()
         
     import imageio
     
     dirpath = join(BASE_DIR, 'data', 'gifs', 'figures')
-    filenames = [join(dirpath, f) for f in listdir(dirpath) if isfile(join(dirpath, f))]
+    filenames = [join(dirpath, f'grid_{gridsize}_{f}.png') for f in range(index) if isfile(join(dirpath,  f'grid_{gridsize}_{f}.png'))]
     
-    with imageio.get_writer(join(BASE_DIR, 'data', 'gifs', f'video_grid{gridsize}.gif'), mode='I') as writer:
+    with imageio.get_writer(join(BASE_DIR, 'data', 'gifs', f'video_grid{gridsize}_time{total_time}.gif'), mode='I') as writer:
         for filename in filenames:
             image = imageio.imread(filename)
-            writer.append_data(image)
+            for i in range(5):
+                writer.append_data(image)
