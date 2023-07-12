@@ -91,7 +91,7 @@ class FindPathGreedySingleLayer:
                 
                 assert len(pathvalues) == 8
                 
-                max_index = self._max_index_finder(surrounding_values=pathvalues, grid=idronegrid.grid)
+                max_index = np.argmax(pathvalues)
                                 
                 # === Find new drone coords ===            
                 current_drone_coords = idronegrid.drone.path[-1]
@@ -107,15 +107,6 @@ class FindPathGreedySingleLayer:
                 idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=timestep)
                 
         return self.dronegrid_properties
-    
-    def _max_index_finder(surrounding_values: list[int], grid: GridInfo)->int:
-        max_indices = np.argmax(surrounding_values)
-        
-        # === Check whether multiple values exist with the maximum value ===
-        if len(np.where(surrounding_values==surrounding_values[max_indices]))>1:
-            return None
-        else:
-            return max_indices
         
         
 
@@ -189,7 +180,7 @@ class FindPathGreedySingleLayerGifs(FindPathGreedySingleLayer):
                 
                 assert len(pathvalues) == 8
                 
-                max_index = self._max_index_finder(surrounding_values=pathvalues, grid=idronegrid.grid)
+                max_index = np.argmax(pathvalues)
                 
                 # === Find new drone coords ===            
                 current_drone_coords = idronegrid.drone.path[-1]

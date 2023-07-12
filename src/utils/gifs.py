@@ -8,6 +8,7 @@ import copy
 # --- Internal ---
 from src.algorithms.utils.pathproperties import DroneGridInfo
 from src.algorithms.findpath_singledrone_twolayers import FindPathGreedyTwoLayersGifs
+from src.algorithms.findpath_singledrone_onelayer import FindPathGreedySingleLayerGifs
 from src.base import DroneInfo, GridInfo
 
 # --- External ---
@@ -114,7 +115,31 @@ if __name__=='__main__':
     dirpath = join(BASE_DIR, 'data', 'gifs', 'figures')
     filenames = [join(dirpath, f'grid_{gridsize}_{f}.png') for f in range(index) if isfile(join(dirpath,  f'grid_{gridsize}_{f}.png'))]
     
-    with imageio.get_writer(join(BASE_DIR, 'data', 'gifs', f'video_grid{gridsize}_time{total_time}.gif'), mode='I') as writer:
+    with imageio.get_writer(join(BASE_DIR, 'data', 'gifs', f'video_grid{gridsize}_time{total_time}_twolayers.gif'), mode='I') as writer:
+        for filename in filenames:
+            image = imageio.imread(filename)
+            for i in range(5):
+                writer.append_data(image)
+                
+    pathfinder = FindPathGreedySingleLayerGifs(dronegrid_properties=dronegrid_properties)
+    path, maxpath_index, grids = pathfinder.find_path(total_time=total_time)
+    
+    gifpath = []
+        
+    for index, path_coords in enumerate(path.drone.path):
+        gifpath.append(path_coords)
+        
+        fig, ax = plotgrid(grid=grids[index])
+        dronepathplots(ax=ax, path=gifpath, starting_point=path.drone.starting_point)
+
+        plt.title(f'Max Sum: {path.drone.total_path_value[index+1]}')
+        plt.savefig(os.path.join(BASE_DIR, 'data', 'gifs', 'figures', f'grid_{gridsize}_{index}.png'))
+        plt.clf()
+    
+    dirpath = join(BASE_DIR, 'data', 'gifs', 'figures')
+    filenames = [join(dirpath, f'grid_{gridsize}_{f}.png') for f in range(index) if isfile(join(dirpath,  f'grid_{gridsize}_{f}.png'))]
+    
+    with imageio.get_writer(join(BASE_DIR, 'data', 'gifs', f'video_grid{gridsize}_time{total_time}_singlelayer.gif'), mode='I') as writer:
         for filename in filenames:
             image = imageio.imread(filename)
             for i in range(5):
