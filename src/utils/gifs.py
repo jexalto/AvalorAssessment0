@@ -73,7 +73,7 @@ def plotgrid(grid: GridInfo)->None:
     
 if __name__=='__main__':
     gridsize = 20
-    total_time = 20
+    total_time = 30
     reset_time = 10
     starting_coords = [3, 3]
     
