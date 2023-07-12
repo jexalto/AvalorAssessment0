@@ -3,11 +3,9 @@ import copy
 
 # --- Internal ---
 from src.algorithms.utils.pathproperties import DroneGridInfo
-from src.base import GridInfo
 
 # --- External ---
 import numpy as np
-from matplotlib.patches import Rectangle
 
 
 class FindPathGreedy:
