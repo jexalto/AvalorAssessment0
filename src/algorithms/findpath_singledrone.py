@@ -124,7 +124,7 @@ class FindPathGreedyGifs(FindPathGreedy):
         self._initialise(dronegrid_properties=self.dronegrid_properties)
         self._reset_drone(dronegrid_properties=self.dronegrid_properties)
         
-        return maxdronepath, maxpath_index, grids
+        return maxdronepath, maxpath_index, grids[maxpath_index]
     
     def _process_paths(self, total_time: int)->list[DroneGridInfo]:
         '''
@@ -140,15 +140,17 @@ class FindPathGreedyGifs(FindPathGreedy):
         x_index = [-1, 0, 1, 1, 1, 0, -1, -1]
         y_index = [-1, -1, -1, 0, 1, 1, 1, 0]
         
-        grids = [self.dronegrid_properties[0].grid]
+        grids = {}
         
         # === Initially move drones into 8 directions ===
-        for index, idronegrid in enumerate(self.dronegrid_properties[6:7]):
+        for index, idronegrid in enumerate(self.dronegrid_properties):
             # === Add value of starting point ===
             current_drone_coords = idronegrid.drone.path[-1]
             
             idronegrid.drone.add_to_sum(square_value=
                                             idronegrid.grid.gridvalues[current_drone_coords[1]][current_drone_coords[0]])
+            
+            grids[index] = [copy.deepcopy(idronegrid.grid)]
             
             # === Update drone path ===
             current_drone_coords = idronegrid.drone.path[-1]
@@ -162,11 +164,11 @@ class FindPathGreedyGifs(FindPathGreedy):
             # === Update grid ===
             idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=1)
             
-            grids.append(copy.deepcopy(idronegrid.grid))
+            grids[index].append(copy.deepcopy(idronegrid.grid))
 
         # === Perform path finding operation for all 8 drone instances ===
         for timestep in range(2, total_time+1):
-            for idronegrid in self.dronegrid_properties[6:7]:
+            for index, idronegrid in enumerate(self.dronegrid_properties):
                 # === Find max numerical value around square ===
                 pathvalues = idronegrid.get_surrounding_values()
                 
@@ -187,7 +189,7 @@ class FindPathGreedyGifs(FindPathGreedy):
                 # === Update grid ===
                 idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=timestep)
                 
-                grids.append(copy.deepcopy(idronegrid.grid))
+                grids[index].append(copy.deepcopy(idronegrid.grid))
                 
         return grids
     

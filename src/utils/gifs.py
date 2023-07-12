@@ -14,16 +14,9 @@ from src.base import DroneInfo, GridInfo
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+import imageio
 
 BASE_DIR = Path(__file__).parents[1]
-
-def inputs():
-    coords = [3, 3]
-
-    drone = DroneInfo(name='TestDrone',
-                        starting_point=coords)
-
-    return coords, drone
 
 def dronepathplots(ax, path: list[int], starting_point: list[int])->None:
     x, y = [], []
@@ -81,7 +74,10 @@ if __name__=='__main__':
     gridsize = 20
     total_time = 20
     reset_time = 10
-    coords, drone = inputs()
+    starting_coords = [3, 3]
+    
+    drone = DroneInfo(name='TestDrone',
+                        starting_point=starting_coords)
     
     gridfile = os.path.join(BASE_DIR, 'data', 'grids', f'{gridsize}.txt')
     grid = GridInfo(name='TestGrid',
@@ -101,22 +97,19 @@ if __name__=='__main__':
                             copy.deepcopy(dronegrid)]
 
     pathfinder = FindPathGreedyGifs(dronegrid_properties=dronegrid_properties)
-    # all_paths = pathfinder._process_paths(total_time=total_time)
-    # pathfinder._initialise(dronegrid_properties=dronegrid_properties)
-    # pathfinder._reset_drone(dronegrid_properties=dronegrid_properties)
     path, maxpath_index, grids = pathfinder.find_path(total_time=total_time)
     
     gifpath = []
-    
-    for index, coords in enumerate(path.drone.path):
-        gifpath.append(coords)
+        
+    for index, path_coords in enumerate(path.drone.path):
+        gifpath.append(path_coords)
+        
         fig, ax = plotgrid(grid=grids[index])
         dronepathplots(ax=ax, path=gifpath, starting_point=path.drone.starting_point)
+
         plt.title(f'Max Sum: {path.drone.total_path_value[index+1]}')
         plt.savefig(os.path.join(BASE_DIR, 'data', 'gifs', 'figures', f'grid_{gridsize}_{index}.png'))
         plt.clf()
-        
-    import imageio
     
     dirpath = join(BASE_DIR, 'data', 'gifs', 'figures')
     filenames = [join(dirpath, f'grid_{gridsize}_{f}.png') for f in range(index) if isfile(join(dirpath,  f'grid_{gridsize}_{f}.png'))]
