@@ -1,6 +1,6 @@
 # --- Built-ins ---
 from pathlib import Path
-import sys, os
+import os
 import unittest
 import copy
 
@@ -11,6 +11,8 @@ from src.base import DroneInfo, GridInfo
 from src.algorithms.findpath_singledrone import FindPathGreedy
 from src.algorithms.utils.pathproperties import DroneGridInfo
 
+from src.utils.plots import dronepathplots, plotgrid
+
 # --- External ---
 import numpy as np
 
@@ -18,11 +20,11 @@ BASE_DIR = Path(__file__).parents[1]
 
 class TestGrid(unittest.TestCase):
     def inputs(self):
-        self.total_time = 10 # total number of timesteps
-        self.reset_time = 5
+        self.total_time = 30 # total number of timesteps
+        self.reset_time = 10
         
         gridsize = 20 # this determines what file is chose. Options are: 20, 100, 1000
-        coords = [2, 2]
+        coords = [3, 3]
 
         grid = self._grid_output(gridsize=gridsize)
         drone = DroneInfo(name='TestDrone',
@@ -45,6 +47,7 @@ class TestGrid(unittest.TestCase):
     def test_surrounding_values(self):
         '''
             Test whether surrounding values are found correctly.
+            TODO: add the arrays that surround certain cells for gridsize=20
         '''
         _, grid, drone = self.inputs()
         
@@ -54,7 +57,7 @@ class TestGrid(unittest.TestCase):
             
             drone.move_drone(coords_new=icoords)
         
-            pathfinder = DroneGridInfo(drone=drone, grid=grid, total_time=self.total_time)
+            pathfinder = DroneGridInfo(drone=drone, grid=grid)
             surrounding_values=pathfinder.get_surrounding_values()
 
             self.assertEqual(len(surrounding_values), 8)
@@ -67,7 +70,7 @@ class TestGrid(unittest.TestCase):
         '''
         total_time = 1
         coords, grid, drone = self.inputs()
-        dronegrid = DroneGridInfo(drone=drone, grid=grid, total_time=self.total_time),
+        dronegrid = DroneGridInfo(drone=drone, grid=grid),
         
         # TODO: horrible coding convention but i ran into memory reference issues
         drone_properties = [copy.deepcopy(dronegrid)[0],
@@ -90,9 +93,9 @@ class TestGrid(unittest.TestCase):
             self.assertAlmostEqual(len(np.where(grid_multiplier==0.2)[0]), 1)
             
     def test_find_path(self):
-        total_time = 10
-        coords, grid, drone = self.inputs()
-        dronegrid = DroneGridInfo(drone=drone, grid=grid, total_time=self.total_time),
+        total_time = 30
+        _, grid, drone = self.inputs()
+        dronegrid = DroneGridInfo(drone=drone, grid=grid),
         
         # TODO: horrible coding convention but i ran into memory reference issues
         drone_properties = [copy.deepcopy(dronegrid)[0],
@@ -107,5 +110,12 @@ class TestGrid(unittest.TestCase):
         pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
         drone_maxpath = pathfinder.find_path(total_time=total_time)
         
+        # === Plotting ===
+        import matplotlib.pyplot as plt
+        fig, ax = plotgrid(grid=grid)
+        dronepathplots(ax=ax, dronegrid=drone_maxpath)
+        plt.title(f'Max Sum: {drone_maxpath.drone.total_path_value}')
+        plt.savefig(os.path.join(BASE_DIR, 'data', 'figures', f'grid_{20}_{0}.png'))
+        plt.show()
         # -1 because the starting position is given at t=0
         self.assertAlmostEqual(len(drone_maxpath.drone.path)-1, total_time)

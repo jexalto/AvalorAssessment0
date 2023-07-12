@@ -1,11 +1,13 @@
 # --- Built-ins ---
 import os
+from os import listdir
+from os.path import isfile, join
 from pathlib import Path
 import copy
 
 # --- Internal ---
 from src.algorithms.utils.pathproperties import DroneGridInfo
-from src.algorithms.findpath_singledrone import FindPathGreedy
+from src.algorithms.findpath_singledrone import FindPathGreedyGifs
 from src.base import DroneInfo, GridInfo
 
 # --- External ---
@@ -23,10 +25,9 @@ def inputs():
 
     return coords, drone
 
-def dronepathplots(ax, dronegrid: DroneGridInfo)->None:
+def dronepathplots(ax, path: list[int], starting_point: list[int])->None:
     x, y = [], []
-    path = dronegrid.drone.path
-    x_starting, y_starting = dronegrid.drone.starting_point
+    x_starting, y_starting = starting_point
 
     for ipath in path:
         x.append(ipath[0])
@@ -49,7 +50,7 @@ def plotgrid(grid: GridInfo)->None:
     image = np.zeros(nrows*ncols)
 
     # Set every other cell to a random number (this would be your data)
-    image[::1] = grid.gridshape.flatten()
+    image[::1] = grid.gridvalues.flatten()
 
     # Reshape things into a 9x9 grid.
     image = image.reshape((nrows, ncols))
@@ -62,14 +63,14 @@ def plotgrid(grid: GridInfo)->None:
     # === Print values in squares ===
     for irow in range(nrows):
         for icol in range(ncols):
-            if grid.gridshape[irow, icol]==2:
+            if grid.gridvalues[irow, icol]==2:
                 color='black'
             else:
                 color='w'
-            text = ax.text(icol, irow, grid.gridshape[irow, icol],
+            text = ax.text(icol, irow, np.round(grid.gridvalues[irow, icol],1),
                     ha="center", va="center", color=color)
             
-    cax = ax.matshow(image)
+    cax = ax.matshow(image, interpolation='none', vmin=0, vmax=2)
     # fig.colorbar(cax)
     plt.xticks(range(ncols), col_labels)
     plt.yticks(range(nrows), row_labels)
@@ -98,18 +99,29 @@ if __name__=='__main__':
                             copy.deepcopy(dronegrid)[0],
                             copy.deepcopy(dronegrid)[0]]
 
-    pathfinder = FindPathGreedy(dronegrid_properties=dronegrid_properties)
+    pathfinder = FindPathGreedyGifs(dronegrid_properties=dronegrid_properties)
     # all_paths = pathfinder._process_paths(total_time=total_time)
     # pathfinder._initialise(dronegrid_properties=dronegrid_properties)
     # pathfinder._reset_drone(dronegrid_properties=dronegrid_properties)
-    drone_maxpath = pathfinder.find_path(total_time=total_time)
-    
-    index=0
-    
+    drone_maxpath, maxpath_index, grids = pathfinder.find_path(total_time=total_time)
     path = drone_maxpath#all_paths[index]
     
-    fig, ax = plotgrid(grid=grid)
-    dronepathplots(ax=ax, dronegrid=path)
-    plt.title(f'Max Sum: {path.drone.total_path_value}')
-    plt.savefig(os.path.join(BASE_DIR, 'data', 'figures', f'grid_{gridsize}_{index}.png'))
-    plt.show()
+    gifpath = []
+    
+    for index, coords in enumerate(path.drone.path):
+        gifpath.append(coords)
+        fig, ax = plotgrid(grid=grids[(index+1)*maxpath_index])
+        dronepathplots(ax=ax, path=gifpath, starting_point=path.drone.starting_point)
+        plt.title(f'Max Sum: {path.drone.total_path_value}')
+        plt.savefig(os.path.join(BASE_DIR, 'data', 'gifs', 'figures', f'grid_{gridsize}_{index}.png'))
+        plt.clf()
+        
+    import imageio
+    
+    dirpath = join(BASE_DIR, 'data', 'gifs', 'figures')
+    filenames = [join(dirpath, f) for f in listdir(dirpath) if isfile(join(dirpath, f))]
+    
+    with imageio.get_writer(join(BASE_DIR, 'data', 'gifs', f'video_grid{gridsize}.gif'), mode='I') as writer:
+        for filename in filenames:
+            image = imageio.imread(filename)
+            writer.append_data(image)

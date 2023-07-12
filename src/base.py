@@ -1,6 +1,6 @@
 # --- Built-ins ---
 from dataclasses import dataclass
-from functools import cached_property
+import copy
 
 # --- Internal ---
 
@@ -13,8 +13,7 @@ class DroneInfo:
     starting_point: list[int]
     
     def __post_init__(self):
-        self.total_path_value = 0.
-        self.path = [self.starting_point]
+        self.reset()
     
     def move_drone(self, coords_new: list[int]):
         '''
@@ -27,6 +26,10 @@ class DroneInfo:
             Adds newly collected value to total sum
         '''
         self.total_path_value += square_value
+        
+    def reset(self):
+        self.total_path_value = 0.
+        self.path = [self.starting_point]
 
 @dataclass
 class GridInfo:
@@ -36,9 +39,8 @@ class GridInfo:
     
     def __post_init__(self):
         self.size = self.gridshape.shape
-        # After a square is visited, the grid_multiplier is set to zero
-        self.grid_multiplier = np.ones(self.size)
-        self.time = -1
+        self.gridvalues = copy.deepcopy(self.gridshape)
+        self.reset()
         
     def drone_moved_to_square(self, coords: list[int], time: int)->None:
         '''
@@ -46,6 +48,11 @@ class GridInfo:
         '''
         self._update_grid_multiplier(coords=coords, time=time)
         self._update_grid_values()
+    
+    def reset(self):
+        # After a square is visited, the grid_multiplier is set to zero
+        self.grid_multiplier = np.ones(self.size)
+        self.time = -1
         
     def _update_grid_multiplier(self, coords: list[int], time: int)->None:
         '''
@@ -66,4 +73,4 @@ class GridInfo:
         self.grid_multiplier[y][x] = 0
     
     def _update_grid_values(self):
-        self.gridshape = np.multiply(self.gridshape, self.grid_multiplier)
+        self.gridvalues = np.multiply(self.gridshape, self.grid_multiplier)
