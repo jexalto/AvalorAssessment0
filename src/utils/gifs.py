@@ -56,7 +56,7 @@ def plotgrid(grid: GridInfo)->None:
     # === Print values in squares ===
     for irow in range(nrows):
         for icol in range(ncols):
-            if grid.gridvalues[irow, icol]==2:
+            if grid.gridvalues[irow, icol]>1:
                 color='black'
             else:
                 color='w'

@@ -93,6 +93,6 @@ class TestGrid(unittest.TestCase):
             temp += gridvalue
 
             # use almostequal due to numerical error (1e-12)
-            self.assertAlmostEqual(drone.total_path_value, temp)
+            self.assertAlmostEqual(drone.total_path_value[-1], temp)
             
             self.assertEqual(len(drone.path), timestep+2)
