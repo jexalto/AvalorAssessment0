@@ -3,6 +3,7 @@ import copy
 
 # --- Internal ---
 from src.algorithms.utils.pathproperties import DroneGridInfo
+from src.base import GridInfo
 
 # --- External ---
 import numpy as np
@@ -90,8 +91,8 @@ class FindPathGreedy:
                 
                 assert len(pathvalues) == 8
                 
-                max_index = np.argmax(pathvalues)
-                
+                max_index = self._max_index_finder(surrounding_values=pathvalues, grid=idronegrid.grid)
+                                
                 # === Find new drone coords ===            
                 current_drone_coords = idronegrid.drone.path[-1]
                 new_drone_coords = [current_drone_coords[0]+x_index[max_index], 
@@ -106,6 +107,17 @@ class FindPathGreedy:
                 idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=timestep)
                 
         return self.dronegrid_properties
+    
+    def _max_index_finder(surrounding_values: list[int], grid: GridInfo)->int:
+        max_indices = np.argmax(surrounding_values)
+        
+        # === Check whether multiple values exist with the maximum value ===
+        if len(np.where(surrounding_values==surrounding_values[max_indices]))>1:
+            return None
+        else:
+            return max_indices
+        
+        
 
 class FindPathGreedyGifs(FindPathGreedy):        
     def find_path(self, total_time)->DroneGridInfo:
@@ -177,7 +189,7 @@ class FindPathGreedyGifs(FindPathGreedy):
                 
                 assert len(pathvalues) == 8
                 
-                max_index = np.argmax(pathvalues)
+                max_index = self._max_index_finder(surrounding_values=pathvalues, grid=idronegrid.grid)
                 
                 # === Find new drone coords ===            
                 current_drone_coords = idronegrid.drone.path[-1]

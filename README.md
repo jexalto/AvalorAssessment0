@@ -10,3 +10,5 @@ Make sure dependencies are installed and add ../AvalorAssessment0 to PYTHONPATH:
 PYTHONPATH="LOCAL/AvalorAssessment0:$PYTHONPATH"
 export PYTHONPATH
 ```
+
+![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time20.gif)
