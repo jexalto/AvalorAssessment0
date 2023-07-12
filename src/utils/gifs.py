@@ -7,7 +7,7 @@ import copy
 
 # --- Internal ---
 from src.algorithms.utils.pathproperties import DroneGridInfo
-from src.algorithms.findpath_singledrone import FindPathGreedyGifs
+from src.algorithms.findpath_singledrone_twolayers import FindPathGreedyTwoLayersGifs
 from src.base import DroneInfo, GridInfo
 
 # --- External ---
@@ -96,7 +96,7 @@ if __name__=='__main__':
                             copy.deepcopy(dronegrid),
                             copy.deepcopy(dronegrid)]
 
-    pathfinder = FindPathGreedyGifs(dronegrid_properties=dronegrid_properties)
+    pathfinder = FindPathGreedyTwoLayersGifs(dronegrid_properties=dronegrid_properties)
     path, maxpath_index, grids = pathfinder.find_path(total_time=total_time)
     
     gifpath = []
