@@ -6,7 +6,7 @@ import copy
 
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
-from src.algorithms.findpath_singledrone import FindPathGreedy
+from src.algorithms.findpath_singledrone_twolayers import FindPathGreedyTwoLayers
 from src.algorithms.utils.pathproperties import DroneGridInfo
 
 # --- External ---
@@ -85,7 +85,7 @@ class TestGrid(unittest.TestCase):
                             copy.deepcopy(dronegrid),
                             copy.deepcopy(dronegrid)]
 
-        pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
+        pathfinder = FindPathGreedyTwoLayers(dronegrid_properties=drone_properties)
         dronegrid_properties_final = pathfinder._process_paths(total_time=total_time)
         
         # === Check whether all grid multiplication matrices have the correct number of zero's and 0.2's ===
@@ -110,7 +110,7 @@ class TestGrid(unittest.TestCase):
                             copy.deepcopy(dronegrid)[0],
                             copy.deepcopy(dronegrid)[0]]
 
-        pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
+        pathfinder = FindPathGreedyTwoLayers(dronegrid_properties=drone_properties)
         drone_maxpath = pathfinder.find_path(total_time=total_time)
         
         self.assertAlmostEqual(len(drone_maxpath.drone.path)-1, total_time)

@@ -5,7 +5,7 @@ import copy
 
 # --- Internal ---
 from src.algorithms.utils.pathproperties import DroneGridInfo
-from src.algorithms.findpath_singledrone import FindPathGreedy
+from src.algorithms.findpath_singledrone_twolayers import FindPathGreedyTwoLayers
 from src.base import DroneInfo, GridInfo
 
 # --- External ---
@@ -98,7 +98,7 @@ if __name__=='__main__':
                             copy.deepcopy(dronegrid)[0],
                             copy.deepcopy(dronegrid)[0]]
 
-    pathfinder = FindPathGreedy(dronegrid_properties=dronegrid_properties)
+    pathfinder = FindPathGreedyTwoLayers(dronegrid_properties=dronegrid_properties)
     # all_paths = pathfinder._process_paths(total_time=total_time)
     # pathfinder._initialise(dronegrid_properties=dronegrid_properties)
     # pathfinder._reset_drone(dronegrid_properties=dronegrid_properties)
