@@ -11,18 +11,19 @@ from src.base import DroneInfo, GridInfo
 # --- External ---
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 
 BASE_DIR = Path(__file__).parents[1]
 
 def inputs():
-    coords = [2, 2]
+    coords = [3, 3]
 
     drone = DroneInfo(name='TestDrone',
                         starting_point=coords)
 
     return coords, drone
 
-def dronepathplots(dronegrid: DroneGridInfo)->None:
+def dronepathplots(ax, dronegrid: DroneGridInfo)->None:
     x, y = [], []
     path = dronegrid.drone.path
     x_starting, y_starting = dronegrid.drone.starting_point
@@ -30,9 +31,16 @@ def dronepathplots(dronegrid: DroneGridInfo)->None:
     for ipath in path:
         x.append(ipath[0])
         y.append(ipath[1])
-        
+    
+    width=1
+    height=1
+    
+    ax.add_patch(Rectangle((x_starting-width/2, y_starting-height/2), width, height,
+                    edgecolor = 'pink',
+                    fill=False,
+                    lw=2),
+                )
     plt.plot(x, y, label='Drone Path', linewidth=3, color='black')
-    plt.scatter(x_starting, y_starting, marker='x', color='black', linewidth=2, label='Starting point')
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
 def plotgrid(grid: GridInfo)->None:
@@ -61,11 +69,12 @@ def plotgrid(grid: GridInfo)->None:
             text = ax.text(icol, irow, grid.gridshape[irow, icol],
                     ha="center", va="center", color=color)
             
-    cax = ax.matshow(image, )
+    cax = ax.matshow(image)
     # fig.colorbar(cax)
     plt.xticks(range(ncols), col_labels)
     plt.yticks(range(nrows), row_labels)
     # plt.show()
+    return fig, ax
     
 if __name__=='__main__':
     gridsize = 20
@@ -73,26 +82,34 @@ if __name__=='__main__':
         
     grid = GridInfo(name='TestGrid',
                     gridshape=np.loadtxt(gridfile, dtype='i', delimiter=' '),
-                    reset_time=5)
+                    reset_time=10)
     
-    total_time = 10
+    total_time = 40
     coords, drone = inputs()
-    dronegrid = DroneGridInfo(drone=drone, grid=grid, total_time=total_time),
+    dronegrid = DroneGridInfo(drone=drone, grid=grid),
     
     # TODO: horrible coding convention but i ran into memory reference issues
-    drone_properties = [copy.deepcopy(dronegrid)[0],
-                        copy.deepcopy(dronegrid)[0],
-                        copy.deepcopy(dronegrid)[0],
-                        copy.deepcopy(dronegrid)[0],
-                        copy.deepcopy(dronegrid)[0],
-                        copy.deepcopy(dronegrid)[0],
-                        copy.deepcopy(dronegrid)[0],
-                        copy.deepcopy(dronegrid)[0]]
+    dronegrid_properties = [copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0],
+                            copy.deepcopy(dronegrid)[0]]
 
-    pathfinder = FindPathGreedy(dronegrid_properties=drone_properties)
+    pathfinder = FindPathGreedy(dronegrid_properties=dronegrid_properties)
+    # all_paths = pathfinder._process_paths(total_time=total_time)
+    # pathfinder._initialise(dronegrid_properties=dronegrid_properties)
+    # pathfinder._reset_drone(dronegrid_properties=dronegrid_properties)
     drone_maxpath = pathfinder.find_path(total_time=total_time)
     
-    plotgrid(grid=grid)
-    dronepathplots(dronegrid=drone_maxpath)
-    plt.savefig(os.path.join(BASE_DIR, 'data', 'figures', f'grid_{gridsize}.png'))
+    index=0
+    
+    path = drone_maxpath#all_paths[index]
+    
+    fig, ax = plotgrid(grid=grid)
+    dronepathplots(ax=ax, dronegrid=path)
+    plt.title(f'Max Sum: {path.drone.total_path_value}')
+    plt.savefig(os.path.join(BASE_DIR, 'data', 'figures', f'grid_{gridsize}_{index}.png'))
     plt.show()
