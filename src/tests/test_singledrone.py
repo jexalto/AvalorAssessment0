@@ -8,6 +8,7 @@ import copy
 from src.base import DroneInfo, GridInfo
 from src.algorithms.findpath_singledrone_twolayers import FindPathGreedyTwoLayers
 from src.algorithms.utils.pathproperties import DroneGridInfo
+from src.tests.inputs import testinputs
 
 # --- External ---
 import numpy as np
@@ -16,36 +17,11 @@ BASE_DIR = Path(__file__).parents[1]
 MIN_VALUE = -100001
 
 class TestGrid(unittest.TestCase):
-    def inputs(self):
-        self.total_time = 30 # total number of timesteps
-        self.reset_time = 5
-        
-        gridsize = 20 # this determines what file is chose. Options are: 20, 100, 1000
-        coords = [3, 3]
-
-        grid = self._grid_output(gridsize=gridsize)
-        drone = DroneInfo(name='TestDrone',
-                          starting_point=coords)
-
-        return coords, grid, drone
-    
-    def _grid_output(self, gridsize: int):
-        '''
-            This is the grid input function for all test functions
-        '''
-        gridfile = os.path.join(BASE_DIR, 'data', 'grids', f'{gridsize}.txt')
-        
-        grid = GridInfo(name='TestGrid',
-                        gridshape=np.loadtxt(gridfile, dtype='i', delimiter=' '),
-                        reset_time=self.reset_time)
-        
-        return grid
-    
     def test_surrounding_values(self):
         '''
             Test whether surrounding values are found correctly. Correct values were retrieved from the gridsize=20 array.
         '''
-        _, grid, drone = self.inputs()
+        _, grid, drone = testinputs()
         
         coords = [[0,0], [19, 0], [0, 19], [19,19], [3,2]]
         
@@ -72,7 +48,7 @@ class TestGrid(unittest.TestCase):
             Test for one time step!
         '''
         total_time = 2 # this is a single timestep, it's assumed that timestep one is used to distribute the drones over the initial 8 squares.
-        _, grid, drone = self.inputs()
+        _, grid, drone = testinputs()
         dronegrid = DroneGridInfo(drone=drone, grid=grid)
         
         # TODO: horrible coding convention but i ran into memory reference issues
@@ -97,7 +73,7 @@ class TestGrid(unittest.TestCase):
             
     def test_find_path(self):
         total_time = 30
-        _, grid, drone = self.inputs()
+        _, grid, drone = testinputs()
         dronegrid = DroneGridInfo(drone=drone, grid=grid),
         
         # TODO: horrible coding convention but i ran into memory reference issues
