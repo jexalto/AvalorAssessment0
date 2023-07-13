@@ -10,7 +10,7 @@ Make sure dependencies are installed and add ../AvalorAssessment0 to PYTHONPATH:
 PYTHONPATH="LOCAL/AvalorAssessment0:$PYTHONPATH"
 export PYTHONPATH
 ```
-# Approach comparison
+# Single Drone Approaches
 ## Single layer
 Simple argmax approach for each step
 ![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_singlelayer.gif)
@@ -19,3 +19,5 @@ Simple argmax approach for each step
 In case multiple 'maximum' values the square with the highest surrounding values is preferred
 
 ![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_twolayers.gif)
+
+# Swarm Approach
