@@ -21,7 +21,7 @@ class TestGrid(unittest.TestCase):
         '''
             Test whether surrounding values are found correctly. Correct values were retrieved from the gridsize=20 array.
         '''
-        _, grid, drone = testinputs()
+        _, grid, drone, total_time = testinputs()
         
         coords = [[0,0], [19, 0], [0, 19], [19,19], [3,2]]
         
@@ -48,7 +48,7 @@ class TestGrid(unittest.TestCase):
             Test for one time step!
         '''
         total_time = 2 # this is a single timestep, it's assumed that timestep one is used to distribute the drones over the initial 8 squares.
-        _, grid, drone = testinputs()
+        _, grid, drone, total_time = testinputs()
         dronegrid = DroneGridInfo(drone=drone, grid=grid)
         
         # TODO: horrible coding convention but i ran into memory reference issues
@@ -73,7 +73,7 @@ class TestGrid(unittest.TestCase):
             
     def test_find_path(self):
         total_time = 30
-        _, grid, drone = testinputs()
+        _, grid, drone, total_time = testinputs()
         dronegrid = DroneGridInfo(drone=drone, grid=grid),
         
         # TODO: horrible coding convention but i ran into memory reference issues
