@@ -25,7 +25,7 @@ class TestGrid(unittest.TestCase):
         
     def test_create_circular_grids(self):
         '''
-            Check whether circular grids are properly generated
+            Check whether circular grids are correct
         '''
         radii = self.divided_grid_output()
         coords, grid, drone, total_time = testinputs()
@@ -34,6 +34,5 @@ class TestGrid(unittest.TestCase):
         circular_grids = create_circular_grids(radii=radii, grid=grid)
         
         for index, circular_grid in enumerate(circular_grids):
-            
             self.assertAlmostEqual(circular_grid.gridshape[radii[index], radii[index]],\
                                    grid.gridshape[radii[index], radii[index]])

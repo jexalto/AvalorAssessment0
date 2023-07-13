@@ -13,7 +13,8 @@ class DroneInfo:
     starting_point: list[int]
     
     def __post_init__(self):
-        self.reset()
+        self.drone_circle_index = -1
+        self.reset()        
     
     def move_drone(self, coords_new: list[int]):
         '''

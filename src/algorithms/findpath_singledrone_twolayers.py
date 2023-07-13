@@ -49,7 +49,7 @@ class FindPathGreedyTwoLayers:
         
     def _reset_drone(self, dronegrid_properties: list[DroneGridInfo])->None:
         for idronegrid in dronegrid_properties:
-            idronegrid.drone.reset() 
+            idronegrid.drone.reset()
          
     def _max_index_finder(self, surrounding_values: list[int], current_grid: GridInfo, current_coords: list[int])->int:
         '''
