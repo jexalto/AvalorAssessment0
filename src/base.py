@@ -38,7 +38,7 @@ class GridInfo:
     reset_time: int # the mount of time it takes to reset a square's value back to its original value from zero
     
     def __post_init__(self):
-        self.size = self.gridshape.shape
+        self.size = np.shape(self.gridshape)
         self.gridvalues = copy.deepcopy(self.gridshape)
         self.reset()
         
