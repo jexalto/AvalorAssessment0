@@ -66,6 +66,7 @@ class FindPathGreedySingleLayer:
         # === Initially move drones into 8 directions ===
         for index, idronegrid in enumerate(self.dronegrid_properties):
             # === Add value of starting point ===
+            # TODO: what if drone starts from edge
             current_drone_coords = idronegrid.drone.path[-1]
 
             idronegrid.drone.add_to_sum(square_value=
@@ -74,6 +75,13 @@ class FindPathGreedySingleLayer:
             # === Update drone path ===
             new_drone_coords = [current_drone_coords[0]+x_index[index], 
                                 current_drone_coords[1]+y_index[index]]
+            
+            # Make sure the drone can't start on the other side of the grid
+            for coord_index, new_coord in enumerate(new_drone_coords):
+                if new_coord<0:
+                    new_drone_coords[coord_index]=current_drone_coords
+                elif new_coord>idronegrid.grid.size[0]:
+                    new_drone_coords[coord_index]=current_drone_coords
 
             idronegrid.drone.move_drone(coords_new=new_drone_coords)            
             idronegrid.drone.add_to_sum(square_value=
@@ -162,6 +170,13 @@ class FindPathGreedySingleLayerGifs(FindPathGreedySingleLayer):
             current_drone_coords = idronegrid.drone.path[-1]
             new_drone_coords = [current_drone_coords[0]+x_index[index], 
                                 current_drone_coords[1]+y_index[index]]
+            
+            # Make sure the drone can't start on the other side of the grid
+            for coord_index, new_coord in enumerate(new_drone_coords):
+                if new_coord<0:
+                    new_drone_coords[coord_index]=current_drone_coords
+                elif new_coord>idronegrid.grid.size[0]:
+                    new_drone_coords[coord_index]=current_drone_coords
 
             idronegrid.drone.move_drone(coords_new=new_drone_coords)            
             idronegrid.drone.add_to_sum(square_value=

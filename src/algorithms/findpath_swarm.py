@@ -8,7 +8,7 @@ from src.base import DroneInfo, GridInfo
 import numpy as np
 
 
-class FindPathSingleDrone:
+class FindPathSwarm:
     
     def __init__(self, drone: DroneInfo, grid: GridInfo, total_time: int):
         self.drone = drone
