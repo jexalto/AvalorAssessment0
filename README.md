@@ -21,3 +21,6 @@ In case multiple 'maximum' values the square with the highest surrounding values
 ![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_twolayers.gif)
 
 # Swarm Approach
+For the swarm algorithm the following logic will be used:
+
+![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/docs/figs/swarm_circular_approach.jpeg)
