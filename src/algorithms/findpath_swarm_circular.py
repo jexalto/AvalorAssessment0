@@ -34,15 +34,16 @@ class FindPathSwarm:
     def findpath(self)->DroneInfo:
         pass
     
-    def _process_path(self, drone_circle_pairs: dict)->list[DroneGridInfo]:
-        pass
+    def _process_path(self)->list[DroneGridInfo]:
+        self._find_closest_circle()
+        self._move_drone_to_section()
     
     def _find_closest_circle(self)->dict:
         '''
             Move drone to closest circle
         '''
         
-        # === Here we find what drone is closest to what circle ===
+        # === Find drone circular grid combinations ===
         distances_drones_circles = []
 
         for drone in self.dronegrid_properties:
@@ -53,15 +54,28 @@ class FindPathSwarm:
 
         drone_circle_pairs = {}
         
-        for circle_index in range(len(radii)):
+        for circle_index in range(len(radii)-1):
             distances = []
             for distance in distances_drones_circles:
                 distances.append(distance[circle_index])
             closest_drone = np.argmin(distances)
             
-            drone_circle_pairs[circle_index] = circle_index+closest_drone
+            drone_circle_pairs[circle_index+closest_drone] = circle_index
             
             distances_drones_circles.remove(distances_drones_circles[closest_drone])
         
-        return drone_circle_pairs
+        self.drone_circle_pairs = drone_circle_pairs
+        
+        # === Give circular grid to respective drone ===
+        for drone_index, drone in enumerate(self.dronegrid_properties):
+            drone.circular_grid(grid=circular_grids[drone_circle_pairs[drone_index]])
+    
+    def _move_drone_to_section(self):
+        '''
+            Move drone to its assigned circular section
+        '''
+        for drone_index, drone in enumerate(self.dronegrid_properties):
+            radii = divide_grid_circular(nr_drones=self.nr_drones, grid=drone.grid)
+            radius_index = self.drone_circle_pairs[drone_index]
+            drone.drone_direction(radii=radii, radius_index=radius_index)
         

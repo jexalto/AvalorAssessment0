@@ -24,13 +24,13 @@ class TestGrid(unittest.TestCase):
                                                     starting_point=np.add(coords, 2)), 
                                     grid=grid)
         dronegrid1 = DroneGridInfo( drone=DroneInfo(name='Drone0', 
-                                                    starting_point=np.add(coords, 4)), 
+                                                    starting_point=np.add([11, 9], 0)), 
                                     grid=grid)
         dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone0', 
-                                                    starting_point=np.add(coords, 6)), 
+                                                    starting_point=np.add([9, 11], 0)), 
                                     grid=grid)
         dronegrid3 = DroneGridInfo( drone=DroneInfo(name='Drone0', 
-                                                    starting_point=np.add(coords, 8)), 
+                                                    starting_point=np.add(coords, 12)), 
                                     grid=grid)
         
         # TODO: horrible coding convention but i ran into memory reference issues
@@ -42,3 +42,4 @@ class TestGrid(unittest.TestCase):
         pathfinder = FindPathSwarm(dronegrid_properties=drone_properties)
         
         pathfinder._find_closest_circle()
+        
