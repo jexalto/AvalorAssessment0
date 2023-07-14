@@ -75,7 +75,7 @@ class DroneGridInfo:
         
         if self.grid_circular[droneloc[0]][droneloc[1]] != MIN_VALUE:
             drone_in_section = True
-            direction = []
+            direction = [0, 0]
             
         else:
             # === Find what x-direction to move the drone to ===
@@ -90,12 +90,22 @@ class DroneGridInfo:
             if np.argmin([min_x_distance, min_y_distance]):
                 # y-direction movement
                 min_y_index = np.argmin(y_distance)
-                if min_y_distance==0 or min_y_distance==2:
-                    
+                if min_y_index==0 or min_y_distance==2:
+                    # move down
+                    direction = [0, -1]
+                else:
+                    # move up
+                    direction = [0, 1]
 
             else:
                 # x-direction movement
-                None
+                min_x_index = np.argmin(x_distance)
+                if min_x_index==0 or min_x_distance==2:
+                    # move right
+                    direction = [1, 0]
+                else:
+                    # move left
+                    direction = [-1, 0]
         
         return drone_in_section, direction
     

@@ -31,12 +31,12 @@ class FindPathSwarm:
         for idronegrid in dronegrid_properties:
             idronegrid.drone.reset()
     
-    def findpath(self)->DroneInfo:
-        pass
+    def findpath(self, total_time)->DroneInfo:
+        self._process_path(total_time=total_time)
     
-    def _process_path(self)->list[DroneGridInfo]:
+    def _process_path(self, total_time: int)->list[DroneGridInfo]:
         self._find_closest_circle()
-        self._move_drone_to_section()
+        self._move_drone(total_time=total_time)
     
     def _find_closest_circle(self)->dict:
         '''
@@ -60,7 +60,7 @@ class FindPathSwarm:
                 distances.append(distance[circle_index])
             closest_drone = np.argmin(distances)
             
-            drone_circle_pairs[circle_index+closest_drone] = circle_index
+            drone_circle_pairs[circle_index] = circle_index+closest_drone
             
             distances_drones_circles.remove(distances_drones_circles[closest_drone])
         
@@ -68,14 +68,17 @@ class FindPathSwarm:
         
         # === Give circular grid to respective drone ===
         for drone_index, drone in enumerate(self.dronegrid_properties):
+            # TODO: drone_circle_pairs was swapped around
             drone.circular_grid(grid=circular_grids[drone_circle_pairs[drone_index]])
     
-    def _move_drone_to_section(self):
+    def _move_drone(self, total_time):
         '''
-            Move drone to its assigned circular section
+            Move drone to either its assigned circular section or continue the algorithm
         '''
-        for drone_index, drone in enumerate(self.dronegrid_properties):
-            radii = divide_grid_circular(nr_drones=self.nr_drones, grid=drone.grid)
-            radius_index = self.drone_circle_pairs[drone_index]
-            drone.drone_direction(radii=radii, radius_index=radius_index)
+        for timestep in range(total_time):
+            for drone_index, drone in enumerate(self.dronegrid_properties):
+                radii = divide_grid_circular(nr_drones=self.nr_drones, grid=drone.grid)
+                radius_index = self.drone_circle_pairs[drone_index]
+
+                drone_in_section, direction = drone.drone_direction(radii=radii, radius_index=radius_index)
         

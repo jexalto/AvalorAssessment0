@@ -41,5 +41,5 @@ class TestGrid(unittest.TestCase):
 
         pathfinder = FindPathSwarm(dronegrid_properties=drone_properties)
         
-        pathfinder._find_closest_circle()
+        pathfinder.findpath(total_time=total_time)
         
