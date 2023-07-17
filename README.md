@@ -13,17 +13,15 @@ export PYTHONPATH
 # Single Drone Approaches
 ## Single layer
 Simple argmax approach for each step
-<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_singlelayer.gif" width="200">
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_singlelayer.gif" width="800">
 
 ## Two layers
 In case multiple 'maximum' values the square with the highest surrounding values is preferred
-
-![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_twolayers.gif)
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_twolayers.gif" width="800">
 
 # Swarm Approach
 For the swarm algorithm the following logic will be used:
-
-![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/docs/figs/swarm_circular_approach.jpeg)
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/docs/figs/swarm_circular_approach.jpeg" width="800">
 
 # Additional Considerations
 This sections summarises some additional considerations that could (easily) be included in the analysis to optimise the drone's performance.
