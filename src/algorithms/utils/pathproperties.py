@@ -24,7 +24,10 @@ class DroneGridInfo:
         self.grid.grid_multiplier[starting_y][starting_x] = 0
     
     def circular_grid(self, grid: GridInfo):
-        self.grid_circular = grid
+        '''
+            Assign new circular grid to system
+        '''
+        self.grid = grid
     
     def get_surrounding_values(self)->list[float]:
         '''
@@ -51,7 +54,7 @@ class DroneGridInfo:
                 7   -   6   -   5
             TODO: this function is inefficient, must be improved when you have time
         '''
-        grid = self.grid_circular.gridvalues
+        grid = self.grid.gridvalues
         gridshape = self.grid.size
         
         x, y = self.drone.path[-1]
@@ -91,7 +94,7 @@ class DroneGridInfo:
         indices = [radii[radius_index], radii[radius_index+1]]
         droneloc = self.drone.path[-1]
         
-        if self.grid_circular.gridvalues[droneloc[0]][droneloc[1]] != MIN_VALUE:
+        if self.grid.gridvalues[droneloc[0]][droneloc[1]] != MIN_VALUE:
             drone_in_section = True
             direction = [0, 0]
             

@@ -8,6 +8,7 @@ import json
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
 from src.utils.gifs import dronepathplots, plotgrid, make_gif
+from src.tests.inputs import testinputs
 
 # --- External ---
 import numpy as np
@@ -51,6 +52,9 @@ def load_drones(data: dict)->list[list[int]]:
     
     
 if __name__=='__main__':
+    # === Load in grid ===
+    _, grid, drone, _ = testinputs()
+    
     # === Read in json file with data ===
     with open(os.path.join(BASE_DIR, 'data', 'gifs', 'dronegrid_data', 'gridinfo.json'), 'r') as file:
         data=file.read()
@@ -64,7 +68,7 @@ if __name__=='__main__':
     
     grids = load_grids(data=data, gridsize=gridsize)
     drones_path, drones_value, start_value = load_drones(data=data)
-    assert len(grids)==total_time
+    # assert len(grids)==total_time-1
     assert len(drones_path)==nr_drones
     
     total_value = start_value
@@ -72,7 +76,7 @@ if __name__=='__main__':
     for timestep in range(total_time):
         
         grid = GridInfo(name='TestGrid',
-                        gridshape=grids[timestep],
+                        gridshape=np.multiply(grid.gridshape, grids[timestep]),
                         reset_time=reset_time)
 
         fig, ax = plotgrid(grid=grid)

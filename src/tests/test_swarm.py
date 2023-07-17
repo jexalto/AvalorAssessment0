@@ -20,8 +20,8 @@ class TestGrid(unittest.TestCase):
     def test_swarm(self):
         total_time = 10 # this is a single timestep, it's assumed that timestep one is used to distribute the drones over the initial 8 squares.
         _, grid, drone, total_time = testinputs()
-        starting_positions = [[13, 3],
-                              [5, 6],
+        starting_positions = [[3, 3],
+                              [10, 10],
                               [12, 10],
                               [10, 10]]
         dronegrid0 = DroneGridInfo( drone=DroneInfo(name='Drone0_section0', 
@@ -50,4 +50,4 @@ class TestGrid(unittest.TestCase):
             self.assertAlmostEqual(starting_position, pathfinder.dronegrid_properties[index].drone.path[0])
         
         # === Test whether correct circles were assigned to correct drones ===
-        self.assertDictEqual(pathfinder.circle_drone_index, {0:0, 1:1, 2:2, 3:3})
+        self.assertDictEqual(pathfinder.circle_drone_index, {0: 0, 1: 2, 2: 1, 3: 3})

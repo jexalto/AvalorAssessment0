@@ -16,7 +16,7 @@ class TestGrid(unittest.TestCase):
             Test whether values get set to zero
         '''
 
-        coords, grid, _, total_time = testinputs()
+        coords, grid, _, _ = testinputs()
         x_coord, y_coord = coords
         
         grid.drone_moved_to_square(coords=[x_coord, y_coord], time=0)
@@ -29,10 +29,10 @@ class TestGrid(unittest.TestCase):
             The drone moves over the diagonal from its starting position
         '''
 
-        coords, grid, _, total_time = testinputs()
+        coords, grid, _, _ = testinputs()
         x_coord, y_coord = coords
  
-        for timestep in range(total_time):
+        for timestep in range(10):
             grid.drone_moved_to_square(coords=[x_coord+timestep, y_coord+timestep], time=timestep)
 
             if timestep<=grid.reset_time:
@@ -48,11 +48,11 @@ class TestGrid(unittest.TestCase):
             The drone moves over the diagonal from its starting position.
         '''
 
-        coords, grid, drone, total_time = testinputs()
+        coords, grid, drone, _ = testinputs()
         x_coord, y_coord = coords
         temp = 0
  
-        for timestep in range(total_time):
+        for timestep in range(10):
             # === Move drone and retrieve square value ===
             gridvalue = grid.gridshape[x_coord+timestep][y_coord+timestep]
             drone.move_drone(coords_new=[x_coord+timestep, y_coord+timestep])

@@ -151,6 +151,7 @@ class FindPathSwarmGif(FindPathSwarm):
         radii = divide_grid_circular(nr_drones=self.nr_drones, grid=self.dronegrid_properties[0].grid)
 
         with open(os.path.join(BASE_DIR, 'data', 'gifs', 'dronegrid_data',  'gridinfo.json'), 'w') as file:
+            dronegriddict['grid_t'+str(-1)] = self.dronegrid_properties[0].grid.grid_multiplier.flatten().tolist()
             for timestep in range(total_time):
                 for drone_index, dronegrid in enumerate(self.dronegrid_properties):
                     self._sync_grids()
@@ -186,7 +187,7 @@ class FindPathSwarmGif(FindPathSwarm):
                         self.dronegrid_properties[drone_index] = self._update_dronegridinfo(pathvalues=pathvalues, drone=dronegrid, timestep=timestep)
                         
                 # === Save grid info for each drone at each timestep ===
-                dronegriddict['grid_t'+str(timestep)] = dronegrid.grid.gridvalues.flatten().tolist()
+                dronegriddict['grid_t'+str(timestep)] = dronegrid.grid.grid_multiplier.flatten().tolist()
             
             for drone_index, dronegrid in enumerate(self.dronegrid_properties):
                 dronegriddict['drone_path'+dronegrid.drone.name] = dronegrid.drone.path
