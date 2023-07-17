@@ -86,22 +86,23 @@ class FindPathSwarm(FindPathGreedyTwoLayers):
         radii = divide_grid_circular(nr_drones=self.nr_drones, grid=self.dronegrid_properties[0].grid)
 
         for timestep in range(total_time):
-            # The grids need to be synced each cycle
-            # TODO: it should actually be during each run but it's horrible inefficient and for now i don't run into drones wanting to
-                    # occupy the same square
-            self._sync_grids()
             for drone_index, drone in enumerate(self.dronegrid_properties):
+                # The grids need to be synced each cycle
+                # TODO: it should actually be during each run but it's horrible inefficient and for now i don't run into drones wanting to
+                    # occupy the same square
+                self._sync_grids()
                 radius_index = self.circle_drone_index[drone_index]
 
                 drone_in_section, direction = drone.drone_direction(radii=radii, radius_index=radius_index)
                 
                 if drone_in_section:
                     # perform standard two layer drone algo
-                    self.dronegrid_properties[drone_index] = self._move_drone(drone=drone, timestep=timestep)
+                    pathvalues = drone.get_surrounding_values_circular()
+                    self.dronegrid_properties[drone_index] = self._update_dronegridinfo(pathvalues=pathvalues, drone=dronegrid, timestep=timestep)
                 
                 else:
                     # drone must be moved to its assigned circular section
-                    pathvalues = drone.get_surrounding_values()
+                    pathvalues = drone.get_surrounding_values_circular()
                     if direction==[1,0]:
                         # move drone upward
                         pathvalues[3:] = [MIN_VALUE]*len(pathvalues[3:])
@@ -141,26 +142,30 @@ class FindPathSwarm(FindPathGreedyTwoLayers):
 class FindPathSwarmGif(FindPathSwarm):
     def _swarm_policy(self, total_time)->None:
         '''
-            Move drone to either its assigned circular section or continue the algorithm
+            Move drone to either its assigned circular section or continue the algorithm.
+            Slgihtly modified version to deal with creating a gifs
         '''
         dronegriddict = {}
+        dronegriddict['total_time'] = total_time
+        dronegriddict['nr_drones'] = self.nr_drones
         radii = divide_grid_circular(nr_drones=self.nr_drones, grid=self.dronegrid_properties[0].grid)
 
         with open(os.path.join(BASE_DIR, 'data', 'gifs', 'dronegrid_data',  'gridinfo.json'), 'w') as file:
             for timestep in range(total_time):
-                self._sync_grids()
                 for drone_index, dronegrid in enumerate(self.dronegrid_properties):
+                    self._sync_grids()
                     radius_index = self.circle_drone_index[drone_index]
 
                     drone_in_section, direction = dronegrid.drone_direction(radii=radii, radius_index=radius_index)
                     
                     if drone_in_section:
                         # perform standard two layer drone algo
-                        self.dronegrid_properties[drone_index] = self._move_drone(drone=dronegrid, timestep=timestep)
+                        pathvalues = dronegrid.get_surrounding_values_circular()
+                        self.dronegrid_properties[drone_index] = self._update_dronegridinfo(pathvalues=pathvalues, drone=dronegrid, timestep=timestep)
                     
                     else:
                         # drone mus tbe moved to its assigned circular section
-                        pathvalues = dronegrid.get_surrounding_values()
+                        pathvalues = dronegrid.get_surrounding_values_circular()
                         if direction==[1,0]:
                             # move drone upward
                             pathvalues[3:] = [MIN_VALUE]*len(pathvalues[3:])

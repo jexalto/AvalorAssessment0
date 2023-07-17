@@ -41,6 +41,22 @@ class DroneGridInfo:
         
         return surrounding_values_finder(x=x, y=y, grid=grid, gridshape=gridshape)
     
+    def get_surrounding_values_circular(self)->list[float]:
+        '''
+            This function retrieves the values surrounding square x, y.
+            Given as:
+                1   -   2   -   3
+                8   -   X   -   4
+                7   -   6   -   5
+            TODO: this function is inefficient, must be improved when you have time
+        '''
+        grid = self.grid_circular.gridvalues
+        gridshape = self.grid.size
+        
+        x, y = self.drone.path[-1]
+        
+        return surrounding_values_finder(x=x, y=y, grid=grid, gridshape=gridshape)
+    
     def distance_to_circle(self, radii: list[int])->int:
         '''
             Returns the index of the circle that a particular drone is closest to

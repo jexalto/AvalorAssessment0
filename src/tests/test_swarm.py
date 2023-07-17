@@ -18,16 +18,16 @@ MIN_VALUE = -100001
 
 class TestGrid(unittest.TestCase):
     def test_swarm(self):
-        total_time = 2 # this is a single timestep, it's assumed that timestep one is used to distribute the drones over the initial 8 squares.
+        total_time = 10 # this is a single timestep, it's assumed that timestep one is used to distribute the drones over the initial 8 squares.
         _, grid, drone, total_time = testinputs()
         dronegrid0 = DroneGridInfo( drone=DroneInfo(name='Drone0_section0', 
-                                                    starting_point=[3, 3]), 
+                                                    starting_point=[13, 3]), 
                                     grid=grid)
         dronegrid1 = DroneGridInfo( drone=DroneInfo(name='Drone1_section1', 
                                                     starting_point=[5, 6]), 
                                     grid=grid)
         dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone2_section2', 
-                                                    starting_point=[8, 10]), 
+                                                    starting_point=[12, 10]), 
                                     grid=grid)
         dronegrid3 = DroneGridInfo( drone=DroneInfo(name='Drone3_section3', 
                                                     starting_point=[10,10]), 
