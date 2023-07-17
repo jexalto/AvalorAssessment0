@@ -68,7 +68,15 @@ class FindPathGreedyTwoLayers:
         # === Check whether multiple values exist with the maximum value ===
         if len(max_values_indices)>1:
             for max_index in max_values_indices:
-                sum_surrounding = np.sum(surrounding_values_finder(x=current_coords[1]+x_index[max_index], y=current_coords[0]+y_index[max_index], 
+                x=current_coords[1]+x_index[max_index]
+                y=current_coords[0]+y_index[max_index]
+                # check whether system doesn't try to use values outside of grid
+                if y>=current_grid.size[1] or y<=0:
+                    sum_surrounding = 0
+                elif x>=current_grid.size[1] or x<=0:
+                    sum_surrounding = 0
+                else:
+                    sum_surrounding = np.sum(surrounding_values_finder(x=x, y=y,
                                                             grid=current_grid.gridvalues, gridshape=np.shape(current_grid.gridvalues)))
                 
                 if sum_surrounding>temp:

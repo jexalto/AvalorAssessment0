@@ -1,5 +1,6 @@
 # --- Built-ins ---
 from pathlib import Path
+import copy
 
 # --- Internal ---
 from src.base import DroneInfo, GridInfo
@@ -64,7 +65,7 @@ class DroneGridInfo:
         min_distance = []
 
         # === Mirror drone locations on the second half of the grid in either x or y direction ===
-        droneloc = self.drone.path[-1]
+        droneloc = copy.deepcopy(self.drone.path[-1])
         
         gridsize = self.grid.size[0]
         

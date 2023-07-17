@@ -7,4 +7,6 @@ __pycache__/*
 */.DS_Store
 *.pyc
 .DS_Store
-src/data/**.png
+/src/data/figures/**.png
+/src/data/gifs/figures/**.png
+/src/data/gifs/swarm/figures/**.png
