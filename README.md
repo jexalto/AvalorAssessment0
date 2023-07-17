@@ -40,14 +40,14 @@ An Aeroacoustic assessment can be done by using a number of Aeroacoustic models.
 There's 9 different situations: 2 horizontal, 2 vertical, 4 diagonal and one hover. A sketch with each propeller's power distribution is given below:
 
 ### Hover
-![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/src/data/gifs/hover.png)
+![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/hover.png)
 
 ### Horizontal/Vertical
 Horizontal and vertical use the same control manoeuvre, simply rotated 90 degrees.
-![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/src/data/gifs/horizontal.png)
+![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/horizontal_right.png)
 
 ### Diagonal
-![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/src/data/gifs/diagonal.png)
+![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/diagonal.png)
 
 All different situations have their own aerouacoustic footprint. When trying to perform a mission undetected it's important to consider this footprint as not to warn the enemy about the drone's presence.
 
