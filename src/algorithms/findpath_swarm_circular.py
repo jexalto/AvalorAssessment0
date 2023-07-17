@@ -81,4 +81,10 @@ class FindPathSwarm:
                 radius_index = self.drone_circle_pairs[drone_index]
 
                 drone_in_section, direction = drone.drone_direction(radii=radii, radius_index=radius_index)
+                
+                if drone_in_section:
+                    # perform standard two layer drone algo
+                    pass
+                else:
+                    # drone mus tbe moved to its assigned circular section
         
