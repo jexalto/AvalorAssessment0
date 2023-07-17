@@ -13,7 +13,7 @@ export PYTHONPATH
 # Single Drone Approaches
 ## Single layer
 Simple argmax approach for each step
-![](https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_singlelayer.gif)
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_singlelayer.gif" width="200">
 
 ## Two layers
 In case multiple 'maximum' values the square with the highest surrounding values is preferred
