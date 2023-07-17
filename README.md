@@ -33,7 +33,7 @@ The drone's efficiency, thus battery mnagement, is significantly affected by the
 A battery model is relatively straightforward to implement when you use a BEM model to predict propeller performance.
 
 ## Aeroacoustics
-Stealth is a primary requirement for reconaissance and military operations. An example of this is the F35 JSF. The only reason Lockheed's X35 (former name fo the F35) was chosen over Boeing's X32 is because of its stealth performance. Essentially the F35 is a reconaissance and intelligence gathering vehicle, much like the missions that Avalor intends to perform.
+Stealth is a primary requirement for reconaissance and military operations. An example of this is the F35 JSF. The only reason Lockheed's X35 (former name fo the F35) was chosen over Boeing's X32 is because of its stealth performance. Essentially the F35 is a reconaissance and intelligence gathering vehicle, much like the missions that Avalor intends to perform. In other words, in today's age, stealth is of paramount importance, thus aeroacoustics should absolutely be considered
 
 An Aeroacoustic assessment can be done by using a number of Aeroacoustic models. However, computationally efficient optimisation can only be achieved with the aeroacoustic optimisation code PULSE (by B. Pacini, University of Michigan, PhD candidate)[[1]](#PULSE). Including an aeroacoustic model could pervent the enemy from detecting the drone.
 

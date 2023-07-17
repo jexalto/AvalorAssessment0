@@ -8,6 +8,7 @@ from src.algorithms.utils.tools import surrounding_values_finder
 # --- External ---
 import numpy as np
 
+# TODO: replace all min_value with np.NINF
 MIN_VALUE = -100001
 
 class DroneGridInfo:
@@ -73,7 +74,7 @@ class DroneGridInfo:
         indices = [radii[radius_index], radii[radius_index+1]]
         droneloc = self.drone.path[-1]
         
-        if self.grid_circular[droneloc[0]][droneloc[1]] != MIN_VALUE:
+        if self.grid_circular.gridvalues[droneloc[0]][droneloc[1]] != MIN_VALUE:
             drone_in_section = True
             direction = [0, 0]
             

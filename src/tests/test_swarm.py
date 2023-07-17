@@ -19,18 +19,18 @@ MIN_VALUE = -100001
 class TestGrid(unittest.TestCase):
     def test_swarm(self):
         total_time = 2 # this is a single timestep, it's assumed that timestep one is used to distribute the drones over the initial 8 squares.
-        coords, grid, drone, total_time = testinputs()
-        dronegrid0 = DroneGridInfo( drone=DroneInfo(name='Drone0', 
-                                                    starting_point=np.add(coords, 2)), 
+        _, grid, drone, total_time = testinputs()
+        dronegrid0 = DroneGridInfo( drone=DroneInfo(name='Drone0_section0', 
+                                                    starting_point=np.add([3, 3], 0)), 
                                     grid=grid)
-        dronegrid1 = DroneGridInfo( drone=DroneInfo(name='Drone0', 
-                                                    starting_point=np.add([11, 9], 0)), 
+        dronegrid1 = DroneGridInfo( drone=DroneInfo(name='Drone1_section1', 
+                                                    starting_point=np.add([5, 6], 0)), 
                                     grid=grid)
-        dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone0', 
-                                                    starting_point=np.add([9, 11], 0)), 
+        dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone2_section2', 
+                                                    starting_point=np.add([8, 10], 0)), 
                                     grid=grid)
-        dronegrid3 = DroneGridInfo( drone=DroneInfo(name='Drone0', 
-                                                    starting_point=np.add(coords, 12)), 
+        dronegrid3 = DroneGridInfo( drone=DroneInfo(name='Drone3_section3', 
+                                                    starting_point=np.add([10,10], 0)), 
                                     grid=grid)
         
         # TODO: horrible coding convention but i ran into memory reference issues
@@ -40,6 +40,7 @@ class TestGrid(unittest.TestCase):
                             dronegrid3]
 
         pathfinder = FindPathSwarm(dronegrid_properties=drone_properties)
-        
         pathfinder.findpath(total_time=total_time)
         
+        # === Test whether correct circles were assigned to correct drones ===
+        self.assertDictEqual(pathfinder.circle_drone_index, {0:0, 1:1, 2:2, 3:3})

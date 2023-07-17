@@ -115,32 +115,47 @@ class FindPathGreedyTwoLayers:
 
         # === Perform path finding operation for all 8 drone instances ===
         for timestep in range(2, total_time+1):
-            for idronegrid in self.dronegrid_properties:
-                
-                # === Find max numerical value around square ===
-                pathvalues = idronegrid.get_surrounding_values()
-                
-                assert len(pathvalues) == 8
-                
-                # === Find new drone coords ===
-                current_drone_coords = idronegrid.drone.path[-1]
-
-                max_index = self._max_index_finder(surrounding_values=pathvalues, current_grid=idronegrid.grid,
-                                                   current_coords=current_drone_coords)
-                                
-                new_drone_coords = [current_drone_coords[0]+x_index[max_index], 
-                                    current_drone_coords[1]+y_index[max_index]]
-                
-                # === Update drone path ===
-                idronegrid.drone.move_drone(coords_new=new_drone_coords)
-                idronegrid.drone.add_to_sum(square_value=
-                                                idronegrid.grid.gridvalues[new_drone_coords[1]][new_drone_coords[0]])
-                
-                # === Update grid ===
-                idronegrid.grid.drone_moved_to_square(coords=new_drone_coords, time=timestep)
+            for drone_index, idronegrid in enumerate(self.dronegrid_properties):
+                self.dronegrid_properties[drone_index] = self._move_drone(drone=idronegrid, timestep=timestep)
                 
         return self.dronegrid_properties
+    
+    def _move_drone(self, drone: DroneGridInfo, timestep: int)->DroneGridInfo:
+        '''
+            Move drone according to greedy algorithm with one extra layer if multiple squares
+            have the same maximum value
+        '''        
+        # === Find max numerical value around square ===
+        pathvalues = drone.get_surrounding_values()
+        assert len(pathvalues) == 8
         
+        return self._update_dronegridinfo(pathvalues=pathvalues, drone=drone, timestep=timestep)
+        
+    def _update_dronegridinfo(self, pathvalues: np.array, drone:DroneGridInfo, timestep: int):
+        '''
+            Update DroneGridInfo instance. This function is separate from self._move_drone 
+            due to the swarm algoritm implementation.
+        '''
+        x_index = [-1, 0, 1, 1, 1, 0, -1, -1]
+        y_index = [-1, -1, -1, 0, 1, 1, 1, 0]
+        # === Find new drone coords ===
+        current_drone_coords = drone.drone.path[-1]
+
+        max_index = self._max_index_finder(surrounding_values=pathvalues, current_grid=drone.grid,
+                                            current_coords=current_drone_coords)
+                        
+        new_drone_coords = [current_drone_coords[0]+x_index[max_index], 
+                            current_drone_coords[1]+y_index[max_index]]
+        
+        # === Update drone path ===
+        drone.drone.move_drone(coords_new=new_drone_coords)
+        drone.drone.add_to_sum(square_value=
+                                        drone.grid.gridvalues[new_drone_coords[1]][new_drone_coords[0]])
+        
+        # === Update grid ===
+        drone.grid.drone_moved_to_square(coords=new_drone_coords, time=timestep)
+        
+        return drone    
         
 
 class FindPathGreedyTwoLayersGifs(FindPathGreedyTwoLayers):        

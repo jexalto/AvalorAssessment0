@@ -10,8 +10,6 @@ from src.tests.inputs import testinputs
 # --- External ---
 import numpy as np
 
-BASE_DIR = Path(__file__).parents[1]
-
 class TestGrid(unittest.TestCase):    
     def test_update_grid_to_zero(self):
         '''
