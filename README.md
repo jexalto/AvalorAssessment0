@@ -13,14 +13,17 @@ export PYTHONPATH
 # Single Drone Approaches
 ## Single layer
 Simple argmax approach for each step
+
 <img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_singlelayer.gif" width="800">
 
 ## Two layers
 In case multiple 'maximum' values the square with the highest surrounding values is preferred
+
 <img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/src/data/gifs/video_grid20_time30_twolayers.gif" width="800">
 
 # Swarm Approach
 For the swarm algorithm the following logic will be used:
+
 <img style="float: left;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/docs/figs/swarm_circular_approach.jpeg" width="600">
 
 # Additional Considerations
@@ -42,6 +45,7 @@ There's 9 different situations: 2 horizontal, 2 vertical, 4 diagonal and one hov
 
 ### Horizontal/Vertical
 Horizontal and vertical use the same control manoeuvre, simply rotated 90 degrees.
+
 <img style="float: left;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/horizontal_right.png" width="400">
 
 ### Diagonal
