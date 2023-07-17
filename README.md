@@ -21,7 +21,7 @@ In case multiple 'maximum' values the square with the highest surrounding values
 
 # Swarm Approach
 For the swarm algorithm the following logic will be used:
-<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/docs/figs/swarm_circular_approach.jpeg" width="600">
+<img style="float: center;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/docs/figs/swarm_circular_approach.jpeg" width="600">
 
 # Additional Considerations
 This sections summarises some additional considerations that could (easily) be included in the analysis to optimise the drone's performance.
@@ -38,14 +38,14 @@ An Aeroacoustic assessment can be done by using a number of Aeroacoustic models.
 There's 9 different situations: 2 horizontal, 2 vertical, 4 diagonal and one hover. A sketch with each propeller's power distribution is given below:
 
 ### Hover
-<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/hover.png" width="600">
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/hover.png" width="400">
 
 ### Horizontal/Vertical
 Horizontal and vertical use the same control manoeuvre, simply rotated 90 degrees.
-<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/horizontal_right.png" width="600">
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/horizontal_right.png" width="400">
 
 ### Diagonal
-<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/diagonal.png" width="600">
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/diagonal.png" width="400">
 
 All different situations have their own aerouacoustic footprint. When trying to perform a mission undetected it's important to consider this footprint as not to warn the enemy about the drone's presence.
 
