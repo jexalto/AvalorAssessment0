@@ -13,8 +13,6 @@ from src.tests.inputs import testinputs
 # --- External ---
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
-import imageio
 
 BASE_DIR = Path(__file__).parents[1]
 PICTURE_DIR = os.path.join(BASE_DIR, 'data', 'gifs', 'swarm', 'figures')

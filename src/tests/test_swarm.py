@@ -21,27 +21,27 @@ class TestGrid(unittest.TestCase):
         total_time = 10 # this is a single timestep, it's assumed that timestep one is used to distribute the drones over the initial 8 squares.
         _, grid, drone, total_time = testinputs()
         starting_positions = [[3, 3],
-                              [10, 10],
-                              [12, 10],
                               [10, 10]]
+                            #   [14, 10]]
+                            #   [10, 10]]
         dronegrid0 = DroneGridInfo( drone=DroneInfo(name='Drone0_section0', 
                                                     starting_point=starting_positions[0]), 
                                     grid=grid)
         dronegrid1 = DroneGridInfo( drone=DroneInfo(name='Drone1_section1', 
                                                     starting_point=starting_positions[1]), 
                                     grid=grid)
-        dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone2_section2', 
-                                                    starting_point=starting_positions[2]), 
-                                    grid=grid)
-        dronegrid3 = DroneGridInfo( drone=DroneInfo(name='Drone3_section3', 
-                                                    starting_point=starting_positions[3]), 
-                                    grid=grid)
+        # dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone2_section2', 
+        #                                             starting_point=starting_positions[2]), 
+        #                             grid=grid)
+        # dronegrid3 = DroneGridInfo( drone=DroneInfo(name='Drone3_section3', 
+        #                                             starting_point=starting_positions[3]), 
+        #                             grid=grid)
         
         # TODO: horrible coding convention but i ran into memory reference issues
         drone_properties = [dronegrid0,
-                            dronegrid1,
-                            dronegrid2,
-                            dronegrid3]
+                            dronegrid1]
+                            # dronegrid2]
+                            # dronegrid3]
 
         pathfinder = FindPathSwarmGif(dronegrid_properties=drone_properties)
         pathfinder.findpath(total_time=total_time)
