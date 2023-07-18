@@ -26,8 +26,12 @@ For the swarm algorithm the following logic will be used:
 
 <img style="float: left;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/extra_layer/docs/figs/swarm_circular_approach.jpeg" width="600">
 
-The result of the first iteration of the (circular) swarm algorithm is shown below for 4 drones:
-<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/src/data/gifs/swarm/video_grid20_time20.gif" width="800">
+## Results
+The swarm algoritm is shown below for both the grid values and the grid multiplier values. In the latter gif it is easier to see what the policy is exactly doing.
+
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/src/data/gifs/final/video_grid20_time20_values.gif" width="800">
+
+<img style="float: right;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/src/data/gifs/final/video_grid20_time20_multipliers.gif" width="800">
 
 
 # Additional Considerations
