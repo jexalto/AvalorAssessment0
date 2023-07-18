@@ -155,6 +155,9 @@ class FindPathGreedyTwoLayers:
         new_drone_coords = [current_drone_coords[0]+x_index[max_index], 
                             current_drone_coords[1]+y_index[max_index]]
         
+        # make sure drone doesn't move outside map
+        assert any(new_drone_coords)>=0 and any(new_drone_coords)<self.dronegrid_properties[0].grid.size[0]
+        
         # === Update drone path ===
         drone.drone.move_drone(coords_new=new_drone_coords)
         drone.drone.add_to_sum(square_value=

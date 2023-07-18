@@ -19,7 +19,9 @@ BASE_DIR = Path(__file__).parents[1]
 class FindPathSwarm(FindPathGreedyTwoLayers):
     def __init__(self, dronegrid_properties: list[DroneGridInfo]):
         # === Initialise drones on grid and set starting point grid value to zero ===
-        self._initialise(dronegrid_properties=dronegrid_properties)
+        for idronegrid in dronegrid_properties:
+            # we need to initialise all drones
+            self._initialise(dronegrid_properties=[idronegrid])
         self.nr_drones = len(dronegrid_properties)
         self._initialise_drones()
     
@@ -131,7 +133,7 @@ class FindPathSwarm(FindPathGreedyTwoLayers):
         grid_size = self.dronegrid_properties[0].grid.size
         for index_row in range(grid_size[0]):
             for index_col in range(grid_size[1]):
-                tmp = 1.1
+                tmp = 1.
                 for idronegrid in self.dronegrid_properties:
                     tmp = min(idronegrid.grid.grid_multiplier[index_row, index_col], tmp)
                     idronegrid.grid.grid_multiplier[index_row, index_col] = tmp

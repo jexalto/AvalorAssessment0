@@ -62,7 +62,7 @@ if __name__=='__main__':
     nr_drones = data['nr_drones']
 
     gridsize = 20
-    reset_time = 5 # pretty sure this is not used right now
+    reset_time = 10 # pretty sure this is not used right now
     
     grids = load_grids(data=data, gridsize=gridsize)
     drones_path, drones_value, start_value = load_drones(data=data)
@@ -73,11 +73,11 @@ if __name__=='__main__':
     
     for timestep in range(total_time):
         
-        grid = GridInfo(name='TestGrid',
+        grid_gif_input = GridInfo(name='TestGrid',
                         gridshape=grids[timestep],#np.multiply(grid.gridshape, grids[timestep]),
                         reset_time=reset_time)
 
-        fig, ax = plotgrid(grid=grid)
+        fig, ax = plotgrid(grid=grid_gif_input)
         
         for drone in range(nr_drones):
             dronepathplots(ax=ax, path=drones_path[drone][:timestep+1], starting_point=drones_path[drone][0])
@@ -86,5 +86,6 @@ if __name__=='__main__':
         plt.title(f'Max Sum: {total_value}')
         plt.savefig(os.path.join(PICTURE_DIR, f'grid_{gridsize}_{timestep}.png'))
         plt.clf()
+        plt.close()
         
     make_gif(picture_dir=PICTURE_DIR, framestop=10, output_dir=GIF_DIR, total_time=total_time, gridsize=gridsize)
