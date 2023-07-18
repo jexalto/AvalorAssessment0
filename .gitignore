@@ -9,4 +9,4 @@ __pycache__/*
 .DS_Store
 /src/data/figures/**.png
 src/data/gifs/swarm/figures/*.png
-/src/data/gifs/swarm/figures/**.png
+/src/data/gifs/figures/*.png
