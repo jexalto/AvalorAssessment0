@@ -19,9 +19,9 @@ MIN_VALUE = -100001
 class TestGrid(unittest.TestCase):
     def test_swarm(self):
         _, grid, drone, total_time = testinputs()
-        starting_positions = [[3, 3],
-                              [11, 10]]
-                            #   [14, 10]]
+        starting_positions = [[9, 3],
+                              [5, 5],
+                              [14, 10]]
                             #   [10, 10]]
         dronegrid0 = DroneGridInfo( drone=DroneInfo(name='Drone0_section0', 
                                                     starting_point=starting_positions[0]), 
@@ -29,17 +29,17 @@ class TestGrid(unittest.TestCase):
         dronegrid1 = DroneGridInfo( drone=DroneInfo(name='Drone1_section1', 
                                                     starting_point=starting_positions[1]), 
                                     grid=grid)
-        # dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone2_section2', 
-        #                                             starting_point=starting_positions[2]), 
-        #                             grid=grid)
+        dronegrid2 = DroneGridInfo( drone=DroneInfo(name='Drone2_section2', 
+                                                    starting_point=starting_positions[2]), 
+                                    grid=grid)
         # dronegrid3 = DroneGridInfo( drone=DroneInfo(name='Drone3_section3', 
         #                                             starting_point=starting_positions[3]), 
         #                             grid=grid)
         
         # TODO: horrible coding convention but i ran into memory reference issues
         drone_properties = [dronegrid0,
-                            dronegrid1]
-                            # dronegrid2]
+                            dronegrid1,
+                            dronegrid2]
                             # dronegrid3]
 
         pathfinder = FindPathSwarmGif(dronegrid_properties=drone_properties)
@@ -49,4 +49,4 @@ class TestGrid(unittest.TestCase):
             self.assertAlmostEqual(starting_position, pathfinder.dronegrid_properties[index].drone.path[0])
         
         # === Test whether correct circles were assigned to correct drones ===
-        self.assertDictEqual(pathfinder.circle_drone_index, {0: 0, 1: 2, 2: 1, 3: 3})
+        self.assertDictEqual(pathfinder.circle_drone_index, {0: 0, 1: 2, 2: 1})

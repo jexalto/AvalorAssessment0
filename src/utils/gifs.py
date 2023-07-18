@@ -80,7 +80,7 @@ def make_gif(picture_dir: str, framestop: int, output_dir: str, total_time: int,
             for i in range(framestop):
                 writer.append_data(image)
     
-if __name__=='__main__':
+if False:#__name__=='__main__':
     gridsize = 20
     total_time = 30
     reset_time = 10
