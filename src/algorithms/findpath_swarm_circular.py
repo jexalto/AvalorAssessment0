@@ -134,10 +134,11 @@ class FindPathSwarm(FindPathGreedyTwoLayers):
                 tmp = 1.1
                 for idronegrid in self.dronegrid_properties:
                     tmp = min(idronegrid.grid.grid_multiplier[index_row, index_col], tmp)
+                    idronegrid.grid.grid_multiplier[index_row, index_col] = tmp
                 
                 # all matrices get the minimum multiplier value
-                for dronegrid_index in range(len(self.dronegrid_properties)):
-                    self.dronegrid_properties[dronegrid_index].grid.grid_multiplier[index_row, index_col] = tmp
+                # for dronegrid_index in range(len(self.dronegrid_properties)):
+                #     self.dronegrid_properties[dronegrid_index].grid.grid_multiplier[index_row, index_col] = tmp
 
 class FindPathSwarmGif(FindPathSwarm):
     def _swarm_policy(self, total_time)->None:
@@ -154,7 +155,6 @@ class FindPathSwarmGif(FindPathSwarm):
             dronegriddict['grid_t'+str(-1)] = self.dronegrid_properties[0].grid.grid_multiplier.flatten().tolist()
             for timestep in range(total_time):
                 for drone_index, dronegrid in enumerate(self.dronegrid_properties):
-                    self._sync_grids()
                     radius_index = self.circle_drone_index[drone_index]
 
                     drone_in_section, direction = dronegrid.drone_direction(radii=radii, radius_index=radius_index)
@@ -185,7 +185,8 @@ class FindPathSwarmGif(FindPathSwarm):
                             assert ValueError
                             print('ERROR: Direction not given!')
                         self.dronegrid_properties[drone_index] = self._update_dronegridinfo(pathvalues=pathvalues, drone=dronegrid, timestep=timestep)
-                        
+                    self._sync_grids()
+
                 # === Save grid info for each drone at each timestep ===
                 dronegriddict['grid_t'+str(timestep)] = dronegrid.grid.grid_multiplier.flatten().tolist()
             

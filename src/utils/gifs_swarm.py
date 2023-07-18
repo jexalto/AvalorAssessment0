@@ -74,7 +74,7 @@ if __name__=='__main__':
     for timestep in range(total_time):
         
         grid = GridInfo(name='TestGrid',
-                        gridshape=np.multiply(grid.gridshape, grids[timestep]),
+                        gridshape=grids[timestep],#np.multiply(grid.gridshape, grids[timestep]),
                         reset_time=reset_time)
 
         fig, ax = plotgrid(grid=grid)
