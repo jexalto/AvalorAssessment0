@@ -53,7 +53,7 @@ class GridInfo:
     def reset(self):
         # After a square is visited, the grid_multiplier is set to zero
         self.grid_multiplier = np.ones(self.size)
-        self.time = -1
+        self.time = -2
         
     def _update_grid_multiplier(self, coords: list[int], time: int)->None:
         '''
@@ -66,7 +66,7 @@ class GridInfo:
             self.time = time
             for index_row, row in enumerate(self.grid_multiplier):
                 for index_col, col in enumerate(row):
-                    if self.grid_multiplier[index_row][index_col] < 0.9:
+                    if self.grid_multiplier[index_row][index_col] < 1.-1e-8:
                         self.grid_multiplier[index_row][index_col] += 1/self.reset_time
                     
         x, y = coords

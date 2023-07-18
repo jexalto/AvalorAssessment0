@@ -70,8 +70,17 @@ def plotgrid(grid: GridInfo)->None:
     plt.yticks(range(nrows), row_labels)
     # plt.show()
     return fig, ax
+
+def make_gif(picture_dir: str, framestop: int, output_dir: str, total_time: int, gridsize: int):    
+    filenames = [join(picture_dir, f'grid_{gridsize}_{f}.png') for f in range(total_time) if isfile(join(picture_dir,  f'grid_{gridsize}_{f}.png'))]
     
-if __name__=='__main__':
+    with imageio.get_writer(join(output_dir, f'video_grid{gridsize}_time{total_time}.gif'), mode='I') as writer:
+        for filename in filenames:
+            image = imageio.imread(filename)
+            for i in range(framestop):
+                writer.append_data(image)
+    
+if False:#__name__=='__main__':
     gridsize = 20
     total_time = 30
     reset_time = 10

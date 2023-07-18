@@ -75,8 +75,20 @@ def plotgrid(grid: GridInfo)->None:
     plt.yticks(range(nrows), row_labels)
     # plt.show()
     return fig, ax
+
+def draw_regions(ax, coords: list[int], len_radii: int, gridsize: int)->None:
+    x_coords, y_coords = coords
+    for index in range(len_radii-1):
+        x_starting, y_starting = round(gridsize/2)-0.5, round(gridsize/2)-0.5
+        width = x_coords[index][1]-x_coords[index][0]
+        height = y_coords[index][2]-y_coords[index][1]
+        ax.add_patch(Rectangle((x_starting-width/2, y_starting-height/2), width, height,
+                        edgecolor = 'white',
+                        fill=False,
+                        lw=3),
+                    )
     
-if __name__=='__main__':
+if False:#__name__!='__main__':
     gridsize = 20
     gridfile = os.path.join(BASE_DIR, 'data', 'grids', f'{gridsize}.txt')
         

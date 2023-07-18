@@ -13,8 +13,8 @@ import numpy as np
 BASE_DIR = Path(__file__).parents[1]
 
 def testinputs():
-    total_time = 10 # total number of timesteps
-    reset_time = 5
+    total_time = 20 # total number of timesteps
+    reset_time = 15
     
     gridsize = 20 # this determines what file is chose. Options are: 20, 100, 1000
     coords = [3, 3]
