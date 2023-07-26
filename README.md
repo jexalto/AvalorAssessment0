@@ -50,6 +50,8 @@ There's 9 different situations: 2 horizontal, 2 vertical, 4 diagonal and one hov
 
 ### Hover
 <img style="float: left;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/hover.png" width="400">
+The aeroacoustic footprint of a drone in hover looks like this:
+<img style="float: left;" src="https://github.com/jexalto/AvalorAssessment0/blob/feature/algo/swarm/docs/figs/quadRotorNoise_hover.png" width="400">
 
 ### Horizontal/Vertical
 Horizontal and vertical use the same control manoeuvre, simply rotated 90 degrees.
