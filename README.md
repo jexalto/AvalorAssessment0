@@ -1,5 +1,5 @@
 # Avalor Assessment 0
-First Assessment for Avalor job interview Joaquin
+Pet project, drone swarm flying through a map.
 
 Further documentation of the assessment can be found [here](https://github.com/jexalto/AvalorAssessment0/blob/main/docs/CS%20Assessment%201.md)
 
